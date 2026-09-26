@@ -145,9 +145,46 @@ assertCheck("17. Token CSRF gerado e criptograficamente seguro (64 caracteres he
 assertCheck("18. Validação de token autêntico", verify_csrf_token($token));
 assertCheck("19. Rejeição de token falso", !verify_csrf_token('fake_token_123'));
 
+// --- 7. VALIDAÇÃO DAS LOGOS, FAVICON E SISTEMA DE TEMAS ---
+echo "\n--- 7. LOGOS, FAVICON E SISTEMA DE TEMAS ---\n";
+$logoLightPath = __DIR__ . '/assets/img/logo-light.png';
+$logoGreenPath = __DIR__ . '/assets/img/logo-green.jpg';
+assertCheck("20. Arquivo da logo com fundo claro existe (assets/img/logo-light.png)", file_exists($logoLightPath) && filesize($logoLightPath) > 100000);
+assertCheck("21. Arquivo da logo com fundo verde existe (assets/img/logo-green.jpg)", file_exists($logoGreenPath) && filesize($logoGreenPath) > 50000);
+
+$headerContent = file_get_contents(__DIR__ . '/views/header.php');
+$sidebarContent = file_get_contents(__DIR__ . '/views/sidebar.php');
+$cssContent = file_get_contents(__DIR__ . '/assets/css/style.css');
+$jsContent = file_get_contents(__DIR__ . '/assets/js/main.js');
+$consumoContent = file_get_contents(__DIR__ . '/public/consumo.php');
+$envContent = file_get_contents(__DIR__ . '/includes/env.php');
+
+assertCheck("22. Favicon oficial configurado apontando para logo-green.jpg", strpos($headerContent, 'rel="icon"') !== false && strpos($headerContent, 'logo-green.jpg') !== false);
+assertCheck("23. Suporte aos 3 temas (Modo Verde, Claro e Escuro) no style.css", 
+    strpos($cssContent, '[data-theme="verde"]') !== false && 
+    strpos($cssContent, '[data-theme="claro"]') !== false && 
+    strpos($cssContent, '[data-theme="escuro"]') !== false
+);
+assertCheck("24. Seletor de temas implementado na Topbar e na Sidebar", 
+    strpos($headerContent, 'theme-switcher-pill') !== false && 
+    strpos($sidebarContent, 'sidebar-theme-box') !== false
+);
+assertCheck("25. Alternância dinâmica das duas logos via CSS (.logo-claro e .logo-verde)", 
+    strpos($cssContent, '.logo-claro') !== false && 
+    strpos($cssContent, '.logo-verde') !== false
+);
+assertCheck("26. Gerenciador de temas no JavaScript com persistência em localStorage", 
+    strpos($jsContent, 'setFluxoTheme') !== false && 
+    strpos($jsContent, 'localStorage.setItem(\'fluxo_theme\'') !== false
+);
+assertCheck("27. Correção na tela de consumo: SELECT inclui 'id', eliminando warnings e vazamento de caminho", 
+    strpos($consumoContent, 'SELECT id, mes_referencia, valor_consumo') !== false &&
+    strpos($envContent, "ini_set('display_errors', '0')") !== false
+);
+
 // Limpeza dos usuários temporários de teste (Carlos e Mariana)
 $db->prepare("DELETE FROM usuarios WHERE id IN (:u1, :u2)")->execute([':u1' => $uidCarlos, ':u2' => $uidMariana]);
-assertCheck("20. Limpeza dos usuários temporários de teste concluída com sucesso", true);
+assertCheck("28. Limpeza dos usuários temporários de teste concluída com sucesso", true);
 
 echo "\n=================================================================\n";
 echo " TOTAL: {$passedTests} de {$totalTests} TESTES APROVADOS! (100% SUCESSO)\n";

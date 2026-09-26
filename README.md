@@ -15,6 +15,7 @@ Com uma identidade visual moderna e acolhedora em verde suave, o FLUXO afasta a 
 - **Acompanhamento de Consumo de Água & Energia:** Medição física em Litros/m³ e kWh, com cálculo automático da variação percentual em relação ao mês anterior ($$ \uparrow $$ ou $$ \downarrow $$) e gráficos históricos interativos.
 - **Relatórios & Gráficos:** Visualização da distribuição das despesas por categoria em gráfico Donut, evolução mensal dos valores comprometidos e histórico de consumo.
 - **Autenticação Real & Isolamento de Dados:** Cadastro e login por nome de usuário (`usuario`) com hash criptográfico seguro (`password_hash` / `password_verify`), alternador de visibilidade de senha (ícone de olho 👁️/🙈), proteção contra fixação de sessão e isolamento rigoroso entre usuários no banco de dados.
+- **Três Temas Visuais (Claro ☀️, Verde 🌿, Escuro 🌙):** Seletor rápido de aparência com persistência no navegador, design responsivo e alternância automática entre as duas versões oficiais da marca (logo clara e logo verde).
 
 ---
 

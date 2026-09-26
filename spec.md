@@ -1,6 +1,6 @@
 # Especificação Técnica do Sistema FLUXO (spec.md)
 
-> **Versão:** 1.1.0  
+> **Versão:** 1.2.0  
 > **Status:** Sistema Totalmente Implementado e Funcional  
 > **Ambiente de Referência:** PHP 8.2+ / MySQL 10.4+ (MariaDB) / XAMPP / Apache  
 
@@ -93,16 +93,31 @@ O **FLUXO** reúne em uma interface orgânica e acolhedora:
 - **JavaScript:** Vanilla JS moderno para interatividade, gaveta mobile, cálculos em tempo real e modais
 - **Servidor Web:** Apache 2.4 (integrado ao XAMPP)
 
-### 5.1 Identidade Visual e Paleta de Cores
-O sistema utiliza uma paleta acolhedora baseada em verde sálvia, que proporciona conforto visual e organização clara:
-- **Fundo da Página:** `#EEF7F1` (fundo sálvia muito suave)
-- **Verde Primário:** `#3A8F6B` (ações principais, destaques, botões primários)
-- **Verde Escuro:** `#236B4F` (hover de botões primários e detalhes escuros)
-- **Verde Realce:** `#BFE3CE` (destaques leves, seletores e backgrounds suaves)
-- **Cards e Superfícies:** `#FFFFFF` (superfícies limpas com sombra sutil)
-- **Texto Principal:** `#18352A` (contraste de alta legibilidade)
-- **Texto Secundário:** `#65756D` (legendas e metadados)
-- **Bordas e Divisores:** `#DCEBE2` (linhas estruturais suaves)
+### 5.1 Identidade Visual, Logotipos e Sistema de Temas
+
+O sistema dispõe de três identidades visuais selecionáveis pelo usuário, com persistência via `localStorage`:
+- **Modo Verde (Principal Identidade do FLUXO):** Atmosfera acolhedora em camadas verdes:
+  - Fundo geral: `#EEF7F1`
+  - Sidebar: `#1B4533` (verde floresta escuro que confere sofisticação e contraste)
+  - Cards e superfícies: `#FFFFFF` com bordas suaves `#DCEBE2`
+  - Ações e botões primários: `#3A8F6B` (hover `#236B4F`)
+  - Textos: principal `#18352A`, secundário `#65756D`
+- **Modo Claro (☀️ Claro):** Visual limpo, leve e moderno com foco em legibilidade diurna:
+  - Fundo geral: `#F7FAF8`
+  - Cards e Sidebar: `#FFFFFF` com bordas `#E2ECE6`
+  - Cor primária: `#2F855A` (hover `#226745`)
+  - Textos: principal `#1A2E26`, secundário `#5C7066`
+- **Modo Escuro (🌙 Escuro):** Dark mode autêntico com baixo cansaço visual:
+  - Fundo geral: `#111A15`
+  - Cards e superfícies: `#1B2922` (mais claros que o fundo)
+  - Sidebar: `#15221B` com bordas `#24372D`
+  - Cor primária: `#45A67B` (hover `#56BA8D`)
+  - Textos: principal `#E7F3EC`, secundário `#9EB5A8`
+
+#### Logotipos Oficiais e Favicon
+- **Logo de Fundo Claro (`assets/img/logo-light.png`):** Utilizada no Modo Claro e sobre fundos claros onde a versão escura perderia contraste.
+- **Logo de Fundo Verde (`assets/img/logo-green.jpg`):** Utilizada no Modo Verde e Modo Escuro, proporcionando alto contraste e destaque da marca.
+- **Favicon Oficial:** Definido como `assets/img/logo-green.jpg` devido à sua máxima legibilidade em abas de navegadores tanto em temas claros quanto escuros.
 
 #### Cores das Categorias de Despesas
 - **Água:** `#5BA7D1` (Ícone: 💧)

@@ -11,9 +11,13 @@ $initial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
 $active = $activePage ?? 'dashboard';
 ?>
 <aside class="app-sidebar" id="appSidebar">
-    <!-- Brand / Logotipo -->
+    <!-- Brand / Logotipo Oficial com Alternância de Tema -->
     <a href="dashboard.php" class="brand">
-        <div class="brand-logo-icon">🌿</div>
+        <div class="brand-logo-wrap">
+            <img src="../assets/img/logo-light.png" alt="FLUXO" class="brand-logo-img logo-claro">
+            <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="brand-logo-img logo-verde">
+            <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="brand-logo-img logo-escuro">
+        </div>
         <div class="brand-text">
             <h1>FLUXO</h1>
             <span>Gestão Doméstica</span>
@@ -61,6 +65,23 @@ $active = $activePage ?? 'dashboard';
             <div class="user-info">
                 <div class="user-name" title="<?= e($userName) ?>"><?= e($userName) ?></div>
                 <div class="user-handle" title="@<?= e($userUsuario) ?>">@<?= e($userUsuario) ?></div>
+            </div>
+        </div>
+
+        <div class="sidebar-theme-box">
+            <div class="sidebar-theme-header">
+                <span>Tema Visual</span>
+            </div>
+            <div class="theme-switcher-pill" role="group" aria-label="Tema Visual">
+                <button type="button" class="theme-btn" data-theme-val="claro" title="Modo Claro">
+                    ☀️ Claro
+                </button>
+                <button type="button" class="theme-btn" data-theme-val="verde" title="Modo Verde">
+                    🌿 Verde
+                </button>
+                <button type="button" class="theme-btn" data-theme-val="escuro" title="Modo Escuro">
+                    🌙 Escuro
+                </button>
             </div>
         </div>
 

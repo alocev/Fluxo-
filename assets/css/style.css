@@ -5,8 +5,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-:root {
-    /* Cores Principais — Verde Sálvia Suave & Natureza (Seções 5, 6, 7, 8) */
+:root,
+[data-theme="verde"] {
+    /* Cores Principais — Verde Sálvia Suave & Natureza (Principal Identidade do FLUXO) */
     --primary: #3A8F6B;
     --primary-hover: #236B4F;
     --primary-dark: #236B4F;
@@ -17,6 +18,7 @@
     /* Superfícies e Fundo */
     --bg-page: #EEF7F1;
     --bg-card: #FFFFFF;
+    --bg-card-subtle: #F6FAF7;
     --border-color: #DCEBE2;
     --border-subtle: #E6F0EA;
     
@@ -25,6 +27,28 @@
     --text-secondary: #65756D;
     --text-muted: #8A9A92;
     --text-inverse: #FFFFFF;
+
+    /* Sidebar no Modo Verde (Verde profundo para camadas e contraste elegante) */
+    --sidebar-bg: #1B4533;
+    --sidebar-border: #143828;
+    --sidebar-text: #D5E8DD;
+    --sidebar-text-muted: #95BBA8;
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.10);
+    --sidebar-active-bg: #3A8F6B;
+    --sidebar-active-text: #FFFFFF;
+    --sidebar-brand-title: #FFFFFF;
+    --sidebar-brand-sub: #A3CFB8;
+    --sidebar-user-bg: rgba(255, 255, 255, 0.08);
+    --sidebar-user-border: rgba(255, 255, 255, 0.14);
+
+    /* Topbar & Inputs */
+    --topbar-bg: #FFFFFF;
+    --topbar-border: #DCEBE2;
+    --input-bg: #FFFFFF;
+
+    /* Hero & Auth */
+    --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F4FAF6 100%);
+    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #E2F2E8 0%, #EEF7F1 75%);
 
     /* Cores de Alerta & Estado */
     --success: #236B4F;
@@ -43,7 +67,7 @@
     --info-bg: #f0f9ff;
     --info-border: #bae6fd;
 
-    /* Categorias das Contas (Cores contextuais da Seção 8) */
+    /* Categorias das Contas (Cores contextuais) */
     --cat-agua-color: #5BA7D1;
     --cat-agua-bg: #E5F3FA;
     --cat-agua-border: #C9E5F5;
@@ -81,6 +105,172 @@
 
     --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   TEMA 2: MODO CLARO (☀️ Claro — Limpo, Arejado e Moderno)
+   ========================================================================== */
+[data-theme="claro"] {
+    --primary: #2F855A;
+    --primary-hover: #226745;
+    --primary-dark: #1C5438;
+    --primary-light: #D4EDDE;
+    --primary-surface: #F0F7F3;
+    --primary-border: #C8E5D4;
+
+    /* Superfícies e Fundo */
+    --bg-page: #F7FAF8;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #FAFCFA;
+    --border-color: #E2ECE6;
+    --border-subtle: #EDF3F0;
+
+    /* Textos */
+    --text-primary: #1A2E26;
+    --text-secondary: #5C7066;
+    --text-muted: #889C92;
+    --text-inverse: #FFFFFF;
+
+    /* Sidebar no Modo Claro */
+    --sidebar-bg: #FFFFFF;
+    --sidebar-border: #E2ECE6;
+    --sidebar-text: #5C7066;
+    --sidebar-text-muted: #889C92;
+    --sidebar-hover-bg: #F0F7F3;
+    --sidebar-active-bg: #E8F5EE;
+    --sidebar-active-text: #2F855A;
+    --sidebar-brand-title: #2F855A;
+    --sidebar-brand-sub: #889C92;
+    --sidebar-user-bg: #F4FAF6;
+    --sidebar-user-border: #E2ECE6;
+
+    /* Topbar & Inputs */
+    --topbar-bg: #FFFFFF;
+    --topbar-border: #E2ECE6;
+    --input-bg: #FFFFFF;
+
+    /* Hero & Auth */
+    --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F5F9F6 100%);
+    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #EBF4EE 0%, #F7FAF8 75%);
+
+    /* Categorias */
+    --cat-agua-color: #5BA7D1;
+    --cat-agua-bg: #EAF3FC;
+    --cat-agua-border: #D0E5F9;
+
+    --cat-energia-color: #D9A928;
+    --cat-energia-bg: #FEF8E8;
+    --cat-energia-border: #FCE8B0;
+
+    --cat-internet-color: #7C83D1;
+    --cat-internet-bg: #EEEEFC;
+    --cat-internet-border: #D5D7F8;
+
+    --cat-aluguel-color: #C98568;
+    --cat-aluguel-bg: #FAEDE8;
+    --cat-aluguel-border: #F4D6CB;
+
+    --cat-streaming-color: #A66BB5;
+    --cat-streaming-bg: #F5EAF7;
+    --cat-streaming-border: #E9D1ED;
+
+    --cat-outras-color: #82928A;
+    --cat-outras-bg: #EEF2F0;
+    --cat-outras-border: #D9E2DE;
+}
+
+/* ==========================================================================
+   TEMA 3: MODO ESCURO (🌙 Escuro — Elegante, Alto Contraste e Confortável)
+   ========================================================================== */
+[data-theme="escuro"] {
+    --primary: #45A67B;
+    --primary-hover: #56BA8D;
+    --primary-dark: #328760;
+    --primary-light: #2A4B3A;
+    --primary-surface: #1E3328;
+    --primary-border: #2D4C3B;
+
+    /* Superfícies e Fundo */
+    --bg-page: #111A15;
+    --bg-card: #1B2922;
+    --bg-card-subtle: #22332A;
+    --border-color: #273B30;
+    --border-subtle: #1E3026;
+
+    /* Textos */
+    --text-primary: #E7F3EC;
+    --text-secondary: #9EB5A8;
+    --text-muted: #6F877B;
+    --text-inverse: #111A15;
+
+    /* Sidebar no Modo Escuro */
+    --sidebar-bg: #15221B;
+    --sidebar-border: #24372D;
+    --sidebar-text: #AEC4B8;
+    --sidebar-text-muted: #6F877B;
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+    --sidebar-active-bg: rgba(69, 166, 123, 0.22);
+    --sidebar-active-text: #45A67B;
+    --sidebar-brand-title: #45A67B;
+    --sidebar-brand-sub: #7C9588;
+    --sidebar-user-bg: #1F2E26;
+    --sidebar-user-border: #2A3F33;
+
+    /* Topbar & Inputs */
+    --topbar-bg: #15221B;
+    --topbar-border: #24372D;
+    --input-bg: #131E18;
+
+    /* Hero & Auth */
+    --hero-bg: linear-gradient(135deg, #1B2922 0%, #15221B 100%);
+    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #1A2720 0%, #111A15 75%);
+
+    /* Categorias em Dark Mode (Cores equilibradas e fundos suaves sem cegar) */
+    --cat-agua-color: #62B1E4;
+    --cat-agua-bg: rgba(98, 177, 228, 0.14);
+    --cat-agua-border: rgba(98, 177, 228, 0.28);
+
+    --cat-energia-color: #EFC042;
+    --cat-energia-bg: rgba(239, 192, 66, 0.14);
+    --cat-energia-border: rgba(239, 192, 66, 0.28);
+
+    --cat-internet-color: #959AE0;
+    --cat-internet-bg: rgba(149, 154, 224, 0.14);
+    --cat-internet-border: rgba(149, 154, 224, 0.28);
+
+    --cat-aluguel-color: #DC9D83;
+    --cat-aluguel-bg: rgba(220, 157, 131, 0.14);
+    --cat-aluguel-border: rgba(220, 157, 131, 0.28);
+
+    --cat-streaming-color: #BF84CD;
+    --cat-streaming-bg: rgba(191, 132, 205, 0.14);
+    --cat-streaming-border: rgba(191, 132, 205, 0.28);
+
+    --cat-outras-color: #9CAFA6;
+    --cat-outras-bg: rgba(156, 175, 166, 0.14);
+    --cat-outras-border: rgba(156, 175, 166, 0.28);
+
+    /* Estados no Dark Mode */
+    --success: #68D391;
+    --success-bg: rgba(69, 166, 123, 0.18);
+    --success-border: rgba(69, 166, 123, 0.35);
+
+    --warning: #F6AD55;
+    --warning-bg: rgba(245, 158, 11, 0.15);
+    --warning-border: rgba(245, 158, 11, 0.3);
+
+    --danger: #FC8181;
+    --danger-bg: rgba(239, 68, 68, 0.15);
+    --danger-border: rgba(239, 68, 68, 0.3);
+
+    --info: #63B3ED;
+    --info-bg: rgba(99, 179, 237, 0.15);
+    --info-border: rgba(99, 179, 237, 0.3);
+
+    /* Sombras ajustadas para fundo escuro */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 18px -2px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
 }
 
 /* ==========================================================================
@@ -129,8 +319,8 @@ button, input, select, textarea {
 /* Sidebar para Desktop */
 .app-sidebar {
     width: 270px;
-    background-color: var(--bg-card);
-    border-right: 1px solid var(--border-color);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
     display: flex;
     flex-direction: column;
     padding: 24px 20px;
@@ -146,36 +336,74 @@ button, input, select, textarea {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 6px 12px 24px;
-    border-bottom: 1px solid var(--border-subtle);
-    margin-bottom: 24px;
+    padding: 6px 12px 20px;
+    border-bottom: 1px solid var(--sidebar-border);
+    margin-bottom: 20px;
 }
 
-.brand-logo-icon {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #34d399 0%, #2d7a58 100%);
-    border-radius: 12px;
-    display: flex;
+/* Logos Oficiais (Fundo Claro e Fundo Verde) */
+.brand-logo-wrap,
+.auth-logo-wrap {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
-    font-size: 1.3rem;
-    box-shadow: 0 4px 10px rgba(45, 122, 88, 0.25);
+    flex-shrink: 0;
+}
+
+.brand-logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.auth-logo-img {
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    object-fit: cover;
+    margin: 0 auto 14px;
+    display: block;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Regras de Alternância Inteligente das Logos */
+.logo-claro,
+.logo-verde,
+.logo-escuro {
+    display: none !important;
+}
+
+/* Modo Claro: logo com fundo claro */
+[data-theme="claro"] .logo-claro {
+    display: block !important;
+}
+
+/* Modo Verde (Principal/Padrão): logo com fundo verde */
+:root .logo-verde,
+[data-theme="verde"] .logo-verde {
+    display: block !important;
+}
+
+/* Modo Escuro: logo com fundo verde */
+[data-theme="escuro"] .logo-escuro {
+    display: block !important;
 }
 
 .brand-text h1 {
     font-size: 1.35rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--primary);
+    color: var(--sidebar-brand-title);
     line-height: 1.1;
 }
 
 .brand-text span {
     font-size: 0.72rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--sidebar-brand-sub);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -193,8 +421,8 @@ button, input, select, textarea {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
-    color: var(--text-secondary);
+    padding: 11px 14px;
+    color: var(--sidebar-text);
     font-weight: 600;
     font-size: 0.94rem;
     border-radius: var(--radius-md);
@@ -202,14 +430,15 @@ button, input, select, textarea {
 }
 
 .nav-item a:hover {
-    color: var(--primary);
-    background-color: var(--primary-surface);
+    color: var(--sidebar-active-text);
+    background-color: var(--sidebar-hover-bg);
 }
 
 .nav-item.active a {
-    color: var(--primary);
-    background-color: var(--primary-light);
+    color: var(--sidebar-active-text);
+    background-color: var(--sidebar-active-bg);
     font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .nav-icon {
@@ -218,10 +447,51 @@ button, input, select, textarea {
     text-align: center;
 }
 
+/* Seletor de Tema na Sidebar */
+.sidebar-theme-box {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background-color: var(--sidebar-user-bg);
+    border: 1px solid var(--sidebar-user-border);
+}
+
+.sidebar-theme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sidebar-text-muted);
+}
+
+.sidebar-theme-box .theme-switcher-pill {
+    width: 100%;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.16);
+    border-color: var(--sidebar-user-border);
+    padding: 2px;
+}
+
+.sidebar-theme-box .theme-btn {
+    flex: 1;
+    padding: 6px 4px;
+    font-size: 0.74rem;
+    color: var(--sidebar-text);
+}
+
+.sidebar-theme-box .theme-btn.active {
+    background-color: var(--primary);
+    color: #FFFFFF;
+}
+
 /* Área do usuário na Sidebar */
 .sidebar-user {
-    padding-top: 18px;
-    border-top: 1px solid var(--border-subtle);
+    padding-top: 14px;
+    border-top: 1px solid var(--sidebar-border);
     margin-top: auto;
 }
 
@@ -231,7 +501,8 @@ button, input, select, textarea {
     gap: 12px;
     padding: 10px;
     border-radius: var(--radius-md);
-    background-color: var(--primary-surface);
+    background-color: var(--sidebar-user-bg);
+    border: 1px solid var(--sidebar-user-border);
     margin-bottom: 12px;
 }
 
@@ -246,6 +517,7 @@ button, input, select, textarea {
     justify-content: center;
     font-weight: 700;
     font-size: 0.95rem;
+    flex-shrink: 0;
 }
 
 .user-info {
@@ -255,16 +527,15 @@ button, input, select, textarea {
 .user-info .user-name {
     font-size: 0.88rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--sidebar-brand-title);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.user-info .user-email,
 .user-info .user-handle {
     font-size: 0.74rem;
-    color: var(--text-muted);
+    color: var(--sidebar-text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -278,9 +549,9 @@ button, input, select, textarea {
     width: 100%;
     padding: 9px 12px;
     background: transparent;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--sidebar-user-border);
     border-radius: var(--radius-md);
-    color: var(--text-secondary);
+    color: var(--sidebar-text);
     font-size: 0.84rem;
     font-weight: 600;
     cursor: pointer;
@@ -288,9 +559,54 @@ button, input, select, textarea {
 }
 
 .btn-logout:hover {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border-color: #fecaca;
+    background-color: rgba(239, 68, 68, 0.16);
+    color: #FC8181;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Seletor de Tema (Componente Pill Segmented Control) */
+.theme-switcher-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    padding: 3px;
+    gap: 2px;
+}
+
+.theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px 11px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.theme-btn:hover {
+    color: var(--text-primary);
+}
+
+.theme-btn.active {
+    background-color: var(--bg-card);
+    color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    font-weight: 700;
+}
+
+.auth-theme-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
 }
 
 /* Área de Conteúdo Principal */
@@ -304,8 +620,8 @@ button, input, select, textarea {
 
 /* Topbar Header */
 .app-topbar {
-    background-color: var(--bg-card);
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--topbar-bg);
+    border-bottom: 1px solid var(--topbar-border);
     padding: 14px 32px;
     display: flex;
     align-items: center;
@@ -397,7 +713,7 @@ button, input, select, textarea {
    Componente de Orçamento em Destaque (Seção 17)
    ========================================================================== */
 .budget-hero-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f6faf7 100%);
+    background: var(--hero-bg);
     border: 1px solid var(--primary-border);
     border-radius: var(--radius-xl);
     padding: 30px 34px;
@@ -999,7 +1315,7 @@ button, input, select, textarea {
     padding: 11px 14px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
-    background-color: #ffffff;
+    background-color: var(--input-bg, var(--bg-card));
     color: var(--text-primary);
     transition: var(--transition);
     outline: none;
@@ -1094,18 +1410,18 @@ button, input, select, textarea {
     align-items: center;
     justify-content: center;
     background-color: var(--bg-page);
-    background-image: radial-gradient(circle at 10% 20%, #E8F5ED 0%, #EEF7F1 75%);
+    background-image: var(--auth-bg-gradient);
     padding: 24px;
 }
 
 .auth-card {
-    background-color: #ffffff;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     width: 100%;
     max-width: 440px;
-    padding: 40px;
+    padding: 34px 40px;
 }
 
 .auth-header {
@@ -1295,3 +1611,19 @@ button, input, select, textarea {
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 640px) {
+    .theme-switcher-pill .theme-text {
+        display: none;
+    }
+    .theme-switcher-pill .theme-btn {
+        padding: 5px 8px;
+    }
+    .topbar-actions {
+        gap: 8px;
+    }
+    .month-selector-form {
+        padding: 4px 8px;
+    }
+}
+

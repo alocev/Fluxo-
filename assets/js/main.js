@@ -114,4 +114,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 7. Sistema de Temas (Claro ☀️, Verde 🌿, Escuro 🌙)
+    window.setFluxoTheme = function(theme, save = true) {
+        if (!['verde', 'claro', 'escuro'].includes(theme)) {
+            theme = 'verde';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        if (save) {
+            localStorage.setItem('fluxo_theme', theme);
+        }
+
+        // Atualiza estado visual de todos os botões de tema na página
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            if (btn.getAttribute('data-theme-val') === theme) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            }
+        });
+
+        // Notifica gráficos Chart.js caso existam na página
+        if (typeof window.onFluxoThemeChange === 'function') {
+            window.onFluxoThemeChange(theme);
+        }
+    };
+
+    // Inicializa tema salvo no localStorage
+    const savedTheme = localStorage.getItem('fluxo_theme') || 'verde';
+    window.setFluxoTheme(savedTheme, false);
+
+    // Delegação de evento para os botões de tema
+    document.addEventListener('click', (e) => {
+        const themeBtn = e.target.closest('.theme-btn');
+        if (themeBtn && themeBtn.hasAttribute('data-theme-val')) {
+            e.preventDefault();
+            const chosen = themeBtn.getAttribute('data-theme-val');
+            window.setFluxoTheme(chosen, true);
+        }
+    });
 });
+

@@ -31,6 +31,17 @@ for ($i = -8; $i <= 3; $i++) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($pageTitle) ?></title>
     
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/jpeg" href="../assets/img/logo-green.jpg">
+
+    <!-- Inicialização Imediata do Tema (Evita FOUC / flicker) -->
+    <script>
+    (function() {
+        var t = localStorage.getItem('fluxo_theme') || 'verde';
+        document.documentElement.setAttribute('data-theme', t);
+    })();
+    </script>
+    
     <!-- Google Fonts & Stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +67,22 @@ for ($i = -8; $i <= 3; $i++) {
                 </div>
 
                 <div class="topbar-actions">
+                    <!-- Seletor de Tema (Claro, Verde, Escuro) -->
+                    <div class="theme-switcher-pill" role="group" aria-label="Seletor de Aparência">
+                        <button type="button" class="theme-btn" data-theme-val="claro" title="Modo Claro" aria-label="Modo Claro">
+                            <span class="theme-icon">☀️</span>
+                            <span class="theme-text">Claro</span>
+                        </button>
+                        <button type="button" class="theme-btn" data-theme-val="verde" title="Modo Verde (Principal)" aria-label="Modo Verde">
+                            <span class="theme-icon">🌿</span>
+                            <span class="theme-text">Verde</span>
+                        </button>
+                        <button type="button" class="theme-btn" data-theme-val="escuro" title="Modo Escuro" aria-label="Modo Escuro">
+                            <span class="theme-icon">🌙</span>
+                            <span class="theme-text">Escuro</span>
+                        </button>
+                    </div>
+
                     <!-- Seletor de Mês de Referência -->
                     <form method="GET" class="month-selector-form">
                         <label for="topbarMonthSelect">📅 Mês:</label>

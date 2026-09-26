@@ -69,3 +69,8 @@ if (!function_exists('env')) {
         return $val;
     }
 }
+
+// Configuração segura de tratamento de erros — impede vazamento de caminhos locais e dados sensíveis na interface
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+error_reporting(E_ALL & ~E_DEPRECATED);

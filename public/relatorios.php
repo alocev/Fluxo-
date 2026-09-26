@@ -306,9 +306,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const catData = <?= json_encode($chartCatData) ?>;
     const catColors = <?= json_encode($chartCatColors) ?>;
 
+    const isDark = () => document.documentElement.getAttribute('data-theme') === 'escuro';
+    const getGridColor = () => isDark() ? 'rgba(255, 255, 255, 0.08)' : '#e6f0ea';
+    const getTextColor = () => isDark() ? '#9EB5A8' : '#65756D';
+    const getCardBg = () => isDark() ? '#1B2922' : '#ffffff';
+
+    let chartCatInst = null;
+    let chartEvolInst = null;
+
     const ctxCat = document.getElementById('chartCategorias');
     if (ctxCat && catData.length > 0) {
-        new Chart(ctxCat, {
+        chartCatInst = new Chart(ctxCat, {
             type: 'doughnut',
             data: {
                 labels: catLabels,
@@ -316,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: catData,
                     backgroundColor: catColors,
                     borderWidth: 2,
-                    borderColor: '#ffffff'
+                    borderColor: getCardBg()
                 }]
             },
             options: {
@@ -327,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         position: 'bottom',
                         labels: {
                             font: { family: 'Plus Jakarta Sans', size: 12 },
+                            color: getTextColor(),
                             padding: 14
                         }
                     }
@@ -343,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ctxEvol = document.getElementById('chartEvolucaoGastos');
     if (ctxEvol && evolLabels.length > 0) {
-        new Chart(ctxEvol, {
+        chartEvolInst = new Chart(ctxEvol, {
             type: 'bar',
             data: {
                 labels: evolLabels,
@@ -351,16 +360,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Total Comprometido',
                         data: evolGastos,
-                        backgroundColor: 'rgba(45, 122, 88, 0.75)',
-                        borderColor: '#2d7a58',
+                        backgroundColor: 'rgba(58, 143, 107, 0.75)',
+                        borderColor: '#3A8F6B',
                         borderWidth: 1,
                         borderRadius: 6
                     },
                     {
                         label: 'Total Pago',
                         data: evolPagos,
-                        backgroundColor: 'rgba(52, 211, 153, 0.5)',
-                        borderColor: '#34d399',
+                        backgroundColor: 'rgba(91, 167, 209, 0.65)',
+                        borderColor: '#5BA7D1',
                         borderWidth: 1,
                         borderRadius: 6
                     }
@@ -372,24 +381,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { font: { family: 'Plus Jakarta Sans', size: 12 } }
+                        labels: { 
+                            font: { family: 'Plus Jakarta Sans', size: 12 },
+                            color: getTextColor()
+                        }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: '#f1f5f3' },
+                        grid: { color: getGridColor() },
                         ticks: {
+                            color: getTextColor(),
                             callback: function(value) { return 'R$ ' + value; }
                         }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { color: getTextColor() }
                     }
                 }
             }
         });
     }
+
+    // Registra gancho global de alteração de tema para atualizar gráficos
+    window.onFluxoThemeChange = function(theme) {
+        const gridCol = theme === 'escuro' ? 'rgba(255, 255, 255, 0.08)' : '#e6f0ea';
+        const textCol = theme === 'escuro' ? '#9EB5A8' : '#65756D';
+        const cardBg = theme === 'escuro' ? '#1B2922' : '#ffffff';
+
+        if (chartCatInst) {
+            chartCatInst.data.datasets[0].borderColor = cardBg;
+            if (chartCatInst.options.plugins.legend.labels) {
+                chartCatInst.options.plugins.legend.labels.color = textCol;
+            }
+            chartCatInst.update();
+        }
+
+        if (chartEvolInst) {
+            if (chartEvolInst.options.plugins.legend.labels) {
+                chartEvolInst.options.plugins.legend.labels.color = textCol;
+            }
+            if (chartEvolInst.options.scales.y) {
+                chartEvolInst.options.scales.y.grid.color = gridCol;
+                chartEvolInst.options.scales.y.ticks.color = textCol;
+            }
+            if (chartEvolInst.options.scales.x) {
+                chartEvolInst.options.scales.x.ticks.color = textCol;
+            }
+            chartEvolInst.update();
+        }
+    };
 });
 </script>
 

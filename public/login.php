@@ -57,6 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar — FLUXO</title>
+
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/jpeg" href="../assets/img/logo-green.jpg">
+
+    <!-- Inicialização Imediata do Tema -->
+    <script>
+    (function() {
+        var t = localStorage.getItem('fluxo_theme') || 'verde';
+        document.documentElement.setAttribute('data-theme', t);
+    })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -64,8 +76,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="auth-wrapper">
     <div class="auth-card">
+        <!-- Barra Superior de Seleção de Tema -->
+        <div class="auth-theme-bar">
+            <div class="theme-switcher-pill" role="group" aria-label="Aparência">
+                <button type="button" class="theme-btn" data-theme-val="claro" title="Modo Claro">
+                    <span>☀️</span>
+                </button>
+                <button type="button" class="theme-btn" data-theme-val="verde" title="Modo Verde (Principal)">
+                    <span>🌿</span>
+                </button>
+                <button type="button" class="theme-btn" data-theme-val="escuro" title="Modo Escuro">
+                    <span>🌙</span>
+                </button>
+            </div>
+        </div>
+
         <div class="auth-header">
-            <div class="auth-logo">🌿</div>
+            <div class="auth-logo-wrap">
+                <img src="../assets/img/logo-light.png" alt="FLUXO" class="auth-logo-img logo-claro">
+                <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="auth-logo-img logo-verde">
+                <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="auth-logo-img logo-escuro">
+            </div>
             <h1 class="auth-title">Entrar no FLUXO</h1>
             <p class="auth-subtitle">Acompanhe as contas e o consumo da sua casa.</p>
         </div>

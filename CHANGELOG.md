@@ -105,3 +105,37 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 ### Segurança
 - **Garantia de Isolamento Multi-usuário Estrito:** Verificado e testado que consultas em `orcamentos`, `contas` e `consumos` utilizam restrição `WHERE usuario_id = :uid`, prevenindo vazamento de dados ou visibilidade cruzada entre contas distintas.
 - **Higienização de Inputs:** Validação estrita de formato de nome de usuário para evitar injeções ou caracteres de controle indesejados.
+
+---
+
+## [1.2.0] — 2026-09-26
+
+### Adicionado
+- **Sistema Completo de Três Temas Visuais (Claro ☀️, Verde 🌿, Escuro 🌙):**
+  - **Modo Verde (Principal Identidade do FLUXO):** Construção de atmosfera verde suave em camadas (`#EEF7F1` no fundo, sidebar verde escuro `#1B4533`, cards brancos com bordas sálvia suaves `#DCEBE2` e botões em verde primário `#3A8F6B`).
+  - **Modo Claro (☀️ Claro):** Visual limpo, arejado e moderno com superfícies claras (`#FFFFFF` e `#F7FAF8`), texto escuro de alto contraste (`#1A2E26`) e toques da identidade verde.
+  - **Modo Escuro (🌙 Escuro):** Dark mode autêntico com fundo escuro florestal (`#111A15`), cards em `#1B2922`, tipografia clara (`#E7F3EC`), contraste balanceado e paleta adaptada para não ofuscar.
+- **Seletor de Temas Elegante e Responsivo:**
+  - Componente pill segmented control implementado na Topbar (`views/header.php`), na Sidebar (`views/sidebar.php`) e nas telas de autenticação (`login.php` e `cadastro.php`).
+  - Persistência automática da preferência do usuário via `localStorage` (`fluxo_theme`) com inicialização instantânea no `<head>` de todas as páginas para evitar qualquer cintilação (FOUC).
+  - Adaptação compacta em dispositivos móveis (exibição de ícones representativos ☀️ 🌿 🌙 na barra superior).
+- **Integração das Duas Logos Oficiais do FLUXO:**
+  - Versão com fundo claro integrada em `assets/img/logo-light.png` para uso no Modo Claro e sobre fundos claros onde a versão escura perderia contraste.
+  - Versão com fundo verde integrada em `assets/img/logo-green.jpg` para uso no Modo Verde e Modo Escuro.
+  - Alternância automática via classes utilitárias CSS (`.logo-claro`, `.logo-verde`, `.logo-escuro`) sem dependência de scripts pesados.
+- **Favicon Oficial:**
+  - Avaliação técnica e seleção da versão `logo-green.jpg` como favicon oficial do sistema devido ao excelente contraste, definição do símbolo e legibilidade em abas claras ou escuras em pequenas resoluções (16x16 / 32x32).
+- **Adaptação Dinâmica dos Gráficos (Chart.js):**
+  - Implementação de gancho global `window.onFluxoThemeChange` em `public/consumo.php` e `public/relatorios.php` que ajusta dinamicamente cores de linhas de grade, legendas e rótulos de eixos conforme o tema ativo.
+
+### Corrigido
+- **Correção da Saída de Debug e Vazamento de Caminho Local em `consumo.php`:**
+  - Identificada a causa raiz: a função `getConsumoData()` não selecionava a coluna `id` na consulta SQL de consumos, gerando o aviso `PHP Warning: Undefined array key "id"` na renderização dos botões de edição, expondo o caminho local do servidor `C:\xampp\htdocs\FLUXO\public\consumo.php`.
+  - Incluído `id` no SELECT de `getConsumoData()` e adicionadas checagens defensivas `!empty($dados['id'])`.
+  - Configurado tratamento seguro de erros em `includes/env.php` com `ini_set('display_errors', '0')` e `ini_set('log_errors', '1')` para blindar o sistema contra qualquer exposição de caminhos internos do servidor na interface.
+- **Investigação do Valor Inicial de R$ 1.200:**
+  - Verificado que novos usuários iniciam com estado estritamente zerado (R$ 0,00 de orçamento planejado, 0 contas e 0 medições de consumo), eliminando definitivamente qualquer herança indevida de dados demonstrativos.
+
+### Testes
+- Bateria de testes automatizados E2E expandida para 28 verificações com 100% de sucesso em `e2e_check.php`, validando integridade dos arquivos de imagem das logos, favicon, variáveis dos 3 temas, seletores de interface, persistência em localStorage e ausência de avisos no módulo de consumo.
+

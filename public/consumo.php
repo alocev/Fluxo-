@@ -25,7 +25,7 @@ $nomeMesAnterior = get_month_name_only($mesAnterior);
 // Buscar consumos do mês atual e anterior para Água e Energia
 function getConsumoData(PDO $db, int $uid, string $tipo, string $mesAtual, string $mesAnt): array {
     $stmt = $db->prepare("
-        SELECT mes_referencia, valor_consumo, unidade, valor_fatura, observacao 
+        SELECT id, mes_referencia, valor_consumo, unidade, valor_fatura, observacao 
         FROM consumos 
         WHERE usuario_id = :uid AND tipo = :tipo AND mes_referencia IN (:mesAtual, :mesAnt)
     ");
@@ -149,7 +149,7 @@ include dirname(__DIR__) . '/views/header.php';
                 <span style="font-size: 1.4rem;">💧</span>
                 <span>Consumo de Água</span>
             </div>
-            <?php if ($dadosAgua['val_atual'] !== null): ?>
+            <?php if ($dadosAgua['val_atual'] !== null && !empty($dadosAgua['atual']['id'])): ?>
                 <a href="consumo-editar.php?id=<?= (int)$dadosAgua['atual']['id'] ?>" class="btn-icon" title="Editar este registro">
                     ✏️
                 </a>
@@ -210,7 +210,7 @@ include dirname(__DIR__) . '/views/header.php';
                 <span style="font-size: 1.4rem;">⚡</span>
                 <span>Consumo de Energia</span>
             </div>
-            <?php if ($dadosEnergia['val_atual'] !== null): ?>
+            <?php if ($dadosEnergia['val_atual'] !== null && !empty($dadosEnergia['atual']['id'])): ?>
                 <a href="consumo-editar.php?id=<?= (int)$dadosEnergia['atual']['id'] ?>" class="btn-icon" title="Editar este registro">
                     ✏️
                 </a>
@@ -376,28 +376,35 @@ include dirname(__DIR__) . '/views/header.php';
     <?php endif; ?>
 </div>
 
-<!-- Inicialização dos Gráficos Chart.js -->
+<!-- Inicialização dos Gráficos Chart.js com Suporte aos 3 Temas -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const labels = <?= json_encode($mesesLabelsFormatted) ?>;
     const dataAgua = <?= json_encode($chartAgua) ?>;
     const dataEnergia = <?= json_encode($chartEnergia) ?>;
 
+    const isDark = () => document.documentElement.getAttribute('data-theme') === 'escuro';
+    const getGridColor = () => isDark() ? 'rgba(255, 255, 255, 0.08)' : '#e6f0ea';
+    const getTextColor = () => isDark() ? '#9EB5A8' : '#65756D';
+
+    let chartAguaInst = null;
+    let chartEnergiaInst = null;
+
     const ctxAgua = document.getElementById('chartConsumoAgua');
     if (ctxAgua) {
-        new Chart(ctxAgua, {
+        chartAguaInst = new Chart(ctxAgua, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Água',
                     data: dataAgua,
-                    borderColor: '#0284c7',
-                    backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                    borderColor: '#5BA7D1',
+                    backgroundColor: 'rgba(91, 167, 209, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.35,
-                    pointBackgroundColor: '#0284c7',
+                    pointBackgroundColor: '#5BA7D1',
                     pointRadius: 5
                 }]
             },
@@ -410,10 +417,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: '#f1f5f3' }
+                        grid: { color: getGridColor() },
+                        ticks: { color: getTextColor() }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { color: getTextColor() }
                     }
                 }
             }
@@ -422,19 +431,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ctxEnergia = document.getElementById('chartConsumoEnergia');
     if (ctxEnergia) {
-        new Chart(ctxEnergia, {
+        chartEnergiaInst = new Chart(ctxEnergia, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Energia',
                     data: dataEnergia,
-                    borderColor: '#d97706',
-                    backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                    borderColor: '#D9A928',
+                    backgroundColor: 'rgba(217, 169, 40, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.35,
-                    pointBackgroundColor: '#d97706',
+                    pointBackgroundColor: '#D9A928',
                     pointRadius: 5
                 }]
             },
@@ -447,15 +456,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: '#f1f5f3' }
+                        grid: { color: getGridColor() },
+                        ticks: { color: getTextColor() }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { color: getTextColor() }
                     }
                 }
             }
         });
     }
+
+    // Registra gancho global de alteração de tema para atualizar gráficos dinamicamente
+    window.onFluxoThemeChange = function(theme) {
+        const gridCol = theme === 'escuro' ? 'rgba(255, 255, 255, 0.08)' : '#e6f0ea';
+        const textCol = theme === 'escuro' ? '#9EB5A8' : '#65756D';
+        [chartAguaInst, chartEnergiaInst].forEach(ch => {
+            if (ch && ch.options && ch.options.scales) {
+                if (ch.options.scales.y) {
+                    ch.options.scales.y.grid.color = gridCol;
+                    ch.options.scales.y.ticks.color = textCol;
+                }
+                if (ch.options.scales.x) {
+                    ch.options.scales.x.ticks.color = textCol;
+                }
+                ch.update();
+            }
+        });
+    };
 });
 </script>
 
