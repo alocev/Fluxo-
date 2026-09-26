@@ -139,3 +139,39 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 ### Testes
 - Bateria de testes automatizados E2E expandida para 28 verificações com 100% de sucesso em `e2e_check.php`, validando integridade dos arquivos de imagem das logos, favicon, variáveis dos 3 temas, seletores de interface, persistência em localStorage e ausência de avisos no módulo de consumo.
 
+---
+
+## [1.3.0] — 2026-09-26
+
+### Adicionado
+- **Títulos das Abas do Navegador Padronizados e Concisos:**
+  - Padronização em todas as rotas para títulos curtos que não são cortados pelo navegador: `Início | FLUXO`, `Contas | FLUXO`, `Orçamento | FLUXO`, `Consumo | FLUXO`, `Relatórios | FLUXO`, `Entrar | FLUXO` e `Criar conta | FLUXO`.
+- **Saudação Dinâmica em Tempo Real:**
+  - Implementação de cálculo dinâmico baseado no horário de Brasília (`America/Sao_Paulo`):
+    - Das 05:00 às 11:59: *"Bom dia, [nome]!"*
+    - Das 12:00 às 17:59: *"Boa tarde, [nome]!"*
+    - Das 18:00 às 04:59: *"Boa noite, [nome]!"*
+  - Recalculada a cada requisição sem fixação em sessão.
+- **Bateria de Testes E2E Expandida (33/33 Aprovados):**
+  - Adição de testes automatizados cobrindo padronização de títulos, subtítulo institucional, nomes do menu, cálculo de saudação por horário, ausência de duplicidade de logos e superfícies escuras do topo do dashboard.
+
+### Alterado
+- **Nomes Institucionais e Menu do Sistema:**
+  - Subtítulo da aplicação atualizado de *"FLUXO — Gestão doméstica"* para *"FLUXO — Gestão de contas"*.
+  - Título principal do Dashboard atualizado de *"Visão geral doméstica"* para *"Visão geral de contas"*.
+  - Menus da barra lateral padronizados: `Início`, `Contas da casa`, `Orçamento mensal`, `Água e energia` e `Relatórios`.
+- **Logo Oficial Única de Fundo Verde:**
+  - Adoção exclusiva da logo oficial de fundo verde (`assets/img/logo-green.jpg`) em toda a interface do sistema (Sidebar, Login, Cadastro e Favicon).
+  - Remoção de múltiplos elementos `<img>` no DOM, eliminando de forma definitiva qualquer duplicação visual ou atraso de carregamento.
+- **Atmosfera Verde Imersiva (Tema Verde):**
+  - Refinamento das variáveis CSS de `:root` e `[data-theme="verde"]` para envolver toda a aplicação em tons pastel acolhedores e harmoniosos (`--bg-page: #EEF6F1`, `--bg-card: #F7FCF9`, `--bg-card-subtle: #EBF5EF`, `--border-color: #D2E7DB`, `--topbar-bg: #F7FCF9`).
+  - Cores contextuais de recursos (Água em azul e Energia em amarelo) perfeitamente integradas à atmosfera verde.
+- **Telas de Login e Cadastro (UX Refinada):**
+  - Seletor de temas reposicionado para dentro do cartão (`.auth-card`), centralizado na parte superior, compacto e sem conflitar com o formulário ou com o logotipo.
+
+### Corrigido
+- **Cards Superiores no Modo Escuro (Dashboard):**
+  - Correção da sobreposição de fundos claros nos cards superiores da tela inicial no Modo Escuro.
+  - O card principal de orçamento (`.budget-hero-card`), os alertas automáticos (`.smart-alert`) e a barra de progresso receberam superfícies escuras coordenadas (`#1B2922`, gradientes escuros florestais e bordas `#273B30`), garantindo alto contraste e leitura cristalina dos números e textos claros (`#E7F3EC`), mantendo intactos os cards inferiores.
+
+

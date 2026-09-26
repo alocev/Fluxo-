@@ -113,8 +113,8 @@ $stmtLista = $db->prepare("
 $stmtLista->execute([':uid' => $userId]);
 $historicoConsumos = $stmtLista->fetchAll();
 
-$pageTitle = 'Consumo de Água & Energia — FLUXO';
-$pageHeading = 'Consumo de Água & Energia';
+$pageTitle = 'Consumo | FLUXO';
+$pageHeading = 'Água e energia';
 $activePage = 'consumo';
 
 include dirname(__DIR__) . '/views/header.php';

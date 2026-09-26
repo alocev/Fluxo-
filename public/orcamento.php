@@ -107,8 +107,8 @@ $stmtHistorico = $db->prepare("
 $stmtHistorico->execute([':uid' => $userId]);
 $historicoOrcamentos = $stmtHistorico->fetchAll();
 
-$pageTitle = 'Orçamento Mensal — FLUXO';
-$pageHeading = 'Orçamento Doméstico';
+$pageTitle = 'Orçamento | FLUXO';
+$pageHeading = 'Orçamento mensal';
 $activePage = 'orcamento';
 
 include dirname(__DIR__) . '/views/header.php';

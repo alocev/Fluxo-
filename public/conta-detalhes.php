@@ -35,8 +35,8 @@ $meta = get_category_meta($conta['categoria']);
 $valor = (float)$conta['valor'];
 $limite = $conta['limite_gasto'] !== null ? (float)$conta['limite_gasto'] : null;
 
-$pageTitle = e($conta['nome']) . ' — Detalhes — FLUXO';
-$pageHeading = 'Detalhes da Despesa';
+$pageTitle = 'Detalhes | FLUXO';
+$pageHeading = 'Detalhes da conta';
 $activePage = 'contas';
 
 include dirname(__DIR__) . '/views/header.php';

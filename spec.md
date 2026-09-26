@@ -1,7 +1,7 @@
 # Especificação Técnica do Sistema FLUXO (spec.md)
 
-> **Versão:** 1.2.0  
-> **Status:** Sistema Totalmente Implementado e Funcional  
+> **Versão:** 1.3.0  
+> **Status:** Sistema Totalmente Implementado, Polido e Funcional  
 > **Ambiente de Referência:** PHP 8.2+ / MySQL 10.4+ (MariaDB) / XAMPP / Apache  
 
 ---
@@ -10,7 +10,7 @@
 
 O **FLUXO** é uma aplicação web completa desenvolvida para apoiar pessoas e famílias no gerenciamento doméstico de despesas e no acompanhamento consciente do consumo de recursos essenciais como água e energia elétrica.
 
-A proposta de valor do sistema reside em eliminar o atrito de softwares corporativos e planilhas complexas, oferecendo uma experiência acolhedora, visualmente equilibrada em tons de verde suave, que responde instantaneamente à pergunta fundamental do morador: *"Como estão minhas contas e o consumo da minha casa este mês?"*.
+A proposta de valor do sistema reside em eliminar o atrito de softwares corporativos e planilhas complexas, oferecendo uma experiência acolhedora, visualmente equilibrada em atmosfera verde suave, com títulos curtos e objetivos, que responde instantaneamente à pergunta fundamental do morador: *"Como estão minhas contas e o consumo da minha casa este mês?"*.
 
 ---
 

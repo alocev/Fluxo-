@@ -91,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Editar Leitura de Consumo — FLUXO';
-$pageHeading = 'Editar Consumo';
+$pageTitle = 'Editar consumo | FLUXO';
+$pageHeading = 'Editar consumo';
 $activePage = 'consumo';
 
 include dirname(__DIR__) . '/views/header.php';

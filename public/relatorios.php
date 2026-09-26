@@ -105,8 +105,8 @@ $stmtConsumoRel = $db->prepare("
 $stmtConsumoRel->execute([':uid' => $userId]);
 $consumoRelatorio = $stmtConsumoRel->fetchAll();
 
-$pageTitle = 'Relatórios — FLUXO';
-$pageHeading = 'Relatórios e Análises';
+$pageTitle = 'Relatórios | FLUXO';
+$pageHeading = 'Relatórios';
 $activePage = 'relatorios';
 
 include dirname(__DIR__) . '/views/header.php';

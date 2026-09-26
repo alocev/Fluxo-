@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Registrar Leitura de Consumo — FLUXO';
-$pageHeading = 'Registrar Consumo Doméstico';
+$pageTitle = 'Novo consumo | FLUXO';
+$pageHeading = 'Registrar consumo';
 $activePage = 'consumo';
 
 include dirname(__DIR__) . '/views/header.php';

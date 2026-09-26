@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Adicionar Conta — FLUXO';
-$pageHeading = 'Nova Conta da Casa';
+$pageTitle = 'Nova conta | FLUXO';
+$pageHeading = 'Nova conta';
 $activePage = 'contas';
 
 include dirname(__DIR__) . '/views/header.php';

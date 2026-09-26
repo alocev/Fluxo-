@@ -4,6 +4,9 @@
  * Funções Auxiliares, Formatação e Lógica Compartilhada
  */
 
+// Garante o alinhamento de fuso horário ao Brasil (Horário de Brasília)
+date_default_timezone_set('America/Sao_Paulo');
+
 if (!function_exists('e')) {
     function e(?string $value): string {
         return htmlspecialchars((string)($value ?? ''), ENT_QUOTES, 'UTF-8');
@@ -106,7 +109,7 @@ if (!function_exists('get_greeting')) {
         } else {
             $saudacao = 'Boa noite';
         }
-        return "{$saudacao}, {$primeiroNome}! 👋";
+        return "{$saudacao}, {$primeiroNome}!";
     }
 }
 

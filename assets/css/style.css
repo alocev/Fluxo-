@@ -7,25 +7,25 @@
 
 :root,
 [data-theme="verde"] {
-    /* Cores Principais — Verde Sálvia Suave & Natureza (Principal Identidade do FLUXO) */
-    --primary: #3A8F6B;
-    --primary-hover: #236B4F;
-    --primary-dark: #236B4F;
+    /* Cores Principais — Verde Sálvia & Natureza (Identidade Principal do FLUXO) */
+    --primary: #2D7A58;
+    --primary-hover: #226346;
+    --primary-dark: #1B4E37;
     --primary-light: #BFE3CE;
-    --primary-surface: #E8F5ED;
-    --primary-border: #DCEBE2;
+    --primary-surface: #E3F2E8;
+    --primary-border: #C8E3D2;
     
-    /* Superfícies e Fundo */
-    --bg-page: #EEF7F1;
-    --bg-card: #FFFFFF;
-    --bg-card-subtle: #F6FAF7;
-    --border-color: #DCEBE2;
-    --border-subtle: #E6F0EA;
+    /* Superfícies, Fundo e Camadas com Atmosfera Verde Suave e Acolhedora */
+    --bg-page: #EEF6F1;
+    --bg-card: #F7FCF9;
+    --bg-card-subtle: #EBF5EF;
+    --border-color: #D2E7DB;
+    --border-subtle: #E0EFE6;
     
-    /* Textos */
-    --text-primary: #18352A;
-    --text-secondary: #65756D;
-    --text-muted: #8A9A92;
+    /* Textos (Alto contraste e legibilidade com tom verde profundo) */
+    --text-primary: #143224;
+    --text-secondary: #526C5F;
+    --text-muted: #799587;
     --text-inverse: #FFFFFF;
 
     /* Sidebar no Modo Verde (Verde profundo para camadas e contraste elegante) */
@@ -34,7 +34,7 @@
     --sidebar-text: #D5E8DD;
     --sidebar-text-muted: #95BBA8;
     --sidebar-hover-bg: rgba(255, 255, 255, 0.10);
-    --sidebar-active-bg: #3A8F6B;
+    --sidebar-active-bg: #2D7A58;
     --sidebar-active-text: #FFFFFF;
     --sidebar-brand-title: #FFFFFF;
     --sidebar-brand-sub: #A3CFB8;
@@ -42,13 +42,13 @@
     --sidebar-user-border: rgba(255, 255, 255, 0.14);
 
     /* Topbar & Inputs */
-    --topbar-bg: #FFFFFF;
-    --topbar-border: #DCEBE2;
+    --topbar-bg: #F7FCF9;
+    --topbar-border: #D2E7DB;
     --input-bg: #FFFFFF;
 
-    /* Hero & Auth */
-    --hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F4FAF6 100%);
-    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #E2F2E8 0%, #EEF7F1 75%);
+    /* Hero & Auth com gradiente verde suave */
+    --hero-bg: linear-gradient(135deg, #F7FCF9 0%, #E3F2E8 100%);
+    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #DDEFE4 0%, #EEF6F1 75%);
 
     /* Cores de Alerta & Estado */
     --success: #236B4F;
@@ -250,22 +250,22 @@
     --cat-outras-bg: rgba(156, 175, 166, 0.14);
     --cat-outras-border: rgba(156, 175, 166, 0.28);
 
-    /* Estados no Dark Mode */
-    --success: #68D391;
+    /* Estados no Dark Mode (Superfície escura, borda e alto contraste) */
+    --success: #56BA8D;
     --success-bg: rgba(69, 166, 123, 0.18);
     --success-border: rgba(69, 166, 123, 0.35);
 
-    --warning: #F6AD55;
-    --warning-bg: rgba(245, 158, 11, 0.15);
-    --warning-border: rgba(245, 158, 11, 0.3);
+    --warning: #FBBF24;
+    --warning-bg: rgba(245, 158, 11, 0.18);
+    --warning-border: rgba(245, 158, 11, 0.35);
 
-    --danger: #FC8181;
-    --danger-bg: rgba(239, 68, 68, 0.15);
-    --danger-border: rgba(239, 68, 68, 0.3);
+    --danger: #F87171;
+    --danger-bg: rgba(239, 68, 68, 0.18);
+    --danger-border: rgba(239, 68, 68, 0.35);
 
-    --info: #63B3ED;
-    --info-bg: rgba(99, 179, 237, 0.15);
-    --info-border: rgba(99, 179, 237, 0.3);
+    --info: #38BDF8;
+    --info-bg: rgba(56, 189, 248, 0.18);
+    --info-border: rgba(56, 189, 248, 0.35);
 
     /* Sombras ajustadas para fundo escuro */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
@@ -341,7 +341,7 @@ button, input, select, textarea {
     margin-bottom: 20px;
 }
 
-/* Logos Oficiais (Fundo Claro e Fundo Verde) */
+/* Logo Oficial do FLUXO (Padrão Visual Principal de Fundo Verde) */
 .brand-logo-wrap,
 .auth-logo-wrap {
     display: inline-flex;
@@ -367,29 +367,6 @@ button, input, select, textarea {
     margin: 0 auto 14px;
     display: block;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* Regras de Alternância Inteligente das Logos */
-.logo-claro,
-.logo-verde,
-.logo-escuro {
-    display: none !important;
-}
-
-/* Modo Claro: logo com fundo claro */
-[data-theme="claro"] .logo-claro {
-    display: block !important;
-}
-
-/* Modo Verde (Principal/Padrão): logo com fundo verde */
-:root .logo-verde,
-[data-theme="verde"] .logo-verde {
-    display: block !important;
-}
-
-/* Modo Escuro: logo com fundo verde */
-[data-theme="escuro"] .logo-escuro {
-    display: block !important;
 }
 
 .brand-text h1 {
@@ -605,8 +582,19 @@ button, input, select, textarea {
 
 .auth-theme-bar {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.auth-theme-bar .theme-switcher-pill {
+    padding: 3px;
+    background-color: var(--bg-card-subtle);
+    border: 1px solid var(--border-color);
+}
+
+.auth-theme-bar .theme-btn {
+    padding: 5px 12px;
+    font-size: 0.78rem;
 }
 
 /* Área de Conteúdo Principal */
@@ -817,7 +805,7 @@ button, input, select, textarea {
 .budget-progress-track {
     width: 100%;
     height: 12px;
-    background-color: #e2ede6;
+    background-color: var(--border-color);
     border-radius: var(--radius-pill);
     overflow: hidden;
     position: relative;
@@ -889,7 +877,7 @@ button, input, select, textarea {
 
 .smart-alert.alert-info {
     border-left: 4px solid var(--info);
-    background-color: #f8fcff;
+    background-color: var(--info-bg);
 }
 
 .smart-alert.alert-info .alert-icon-box {
@@ -898,7 +886,7 @@ button, input, select, textarea {
 
 .smart-alert.alert-warning {
     border-left: 4px solid var(--warning);
-    background-color: #fffdf7;
+    background-color: var(--warning-bg);
 }
 
 .smart-alert.alert-warning .alert-icon-box {
@@ -907,7 +895,7 @@ button, input, select, textarea {
 
 .smart-alert.alert-danger {
     border-left: 4px solid var(--danger);
-    background-color: #fffbfb;
+    background-color: var(--danger-bg);
 }
 
 .smart-alert.alert-danger .alert-icon-box {
@@ -916,11 +904,61 @@ button, input, select, textarea {
 
 .smart-alert.alert-success {
     border-left: 4px solid var(--success);
-    background-color: #f7fdf9;
+    background-color: var(--success-bg);
 }
 
 .smart-alert.alert-success .alert-icon-box {
     background-color: var(--success-bg);
+}
+
+/* Correção e Refinamento dos Cards do Topo no Modo Escuro (Dashboard) */
+[data-theme="escuro"] .budget-hero-card {
+    background: #1B2922 !important;
+    background-image: linear-gradient(135deg, #1E2D25 0%, #15221B 100%) !important;
+    border-color: #273B30 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="escuro"] .budget-hero-card::after {
+    background: radial-gradient(circle, rgba(69, 166, 123, 0.12) 0%, rgba(27, 41, 34, 0) 70%);
+}
+
+[data-theme="escuro"] .budget-hero-card .budget-header-title h3,
+[data-theme="escuro"] .budget-hero-card .budget-val-main {
+    color: var(--text-primary);
+}
+
+[data-theme="escuro"] .budget-hero-card .budget-label {
+    color: var(--text-muted);
+}
+
+[data-theme="escuro"] .budget-progress-track {
+    background-color: #273B30;
+}
+
+[data-theme="escuro"] .smart-alert {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="escuro"] .smart-alert.alert-info {
+    background-color: rgba(3, 105, 161, 0.16);
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+[data-theme="escuro"] .smart-alert.alert-warning {
+    background-color: rgba(245, 158, 11, 0.16);
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+[data-theme="escuro"] .smart-alert.alert-danger {
+    background-color: rgba(239, 68, 68, 0.16);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="escuro"] .smart-alert.alert-success {
+    background-color: rgba(69, 166, 123, 0.16);
+    border-color: rgba(69, 166, 123, 0.35);
 }
 
 .alert-content {

@@ -117,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Editar Conta — FLUXO';
-$pageHeading = 'Editar Conta';
+$pageTitle = 'Editar conta | FLUXO';
+$pageHeading = 'Editar conta';
 $activePage = 'contas';
 
 include dirname(__DIR__) . '/views/header.php';

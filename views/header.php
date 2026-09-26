@@ -8,7 +8,7 @@ require_once dirname(__DIR__) . '/includes/auth.php';
 require_once dirname(__DIR__) . '/includes/functions.php';
 
 $currentUser = current_user();
-$pageTitle = $pageTitle ?? 'FLUXO — Gestão Doméstica';
+$pageTitle = $pageTitle ?? 'FLUXO';
 $activePage = $activePage ?? 'dashboard';
 
 // Determina mês de referência atual (ou selecionado pelo usuário)
@@ -63,7 +63,7 @@ for ($i = -8; $i <= 3; $i++) {
                     <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Abrir Menu">
                         ☰
                     </button>
-                    <span class="topbar-title"><?= e($pageHeading ?? 'Visão Geral') ?></span>
+                    <span class="topbar-title"><?= e($pageHeading ?? 'Visão geral de contas') ?></span>
                 </div>
 
                 <div class="topbar-actions">

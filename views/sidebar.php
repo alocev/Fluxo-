@@ -11,16 +11,14 @@ $initial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
 $active = $activePage ?? 'dashboard';
 ?>
 <aside class="app-sidebar" id="appSidebar">
-    <!-- Brand / Logotipo Oficial com Alternância de Tema -->
+    <!-- Brand / Logotipo Oficial de Fundo Verde -->
     <a href="dashboard.php" class="brand">
         <div class="brand-logo-wrap">
-            <img src="../assets/img/logo-light.png" alt="FLUXO" class="brand-logo-img logo-claro">
-            <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="brand-logo-img logo-verde">
-            <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="brand-logo-img logo-escuro">
+            <img src="../assets/img/logo-green.jpg" alt="FLUXO" class="brand-logo-img">
         </div>
         <div class="brand-text">
             <h1>FLUXO</h1>
-            <span>Gestão Doméstica</span>
+            <span>Gestão de contas</span>
         </div>
     </a>
 
@@ -35,19 +33,19 @@ $active = $activePage ?? 'dashboard';
         <li class="nav-item <?= $active === 'contas' ? 'active' : '' ?>">
             <a href="contas.php">
                 <span class="nav-icon">📑</span>
-                <span>Contas da Casa</span>
+                <span>Contas da casa</span>
             </a>
         </li>
         <li class="nav-item <?= $active === 'orcamento' ? 'active' : '' ?>">
             <a href="orcamento.php">
                 <span class="nav-icon">🎯</span>
-                <span>Orçamento Mensal</span>
+                <span>Orçamento mensal</span>
             </a>
         </li>
         <li class="nav-item <?= $active === 'consumo' ? 'active' : '' ?>">
             <a href="consumo.php">
                 <span class="nav-icon">💧</span>
-                <span>Água & Energia</span>
+                <span>Água e energia</span>
             </a>
         </li>
         <li class="nav-item <?= $active === 'relatorios' ? 'active' : '' ?>">

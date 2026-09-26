@@ -63,8 +63,8 @@ $stmtTotais = $db->prepare("
 $stmtTotais->execute([':uid' => $userId, ':mes' => $currentMonth]);
 $metricas = $stmtTotais->fetch();
 
-$pageTitle = 'Contas da Casa — FLUXO';
-$pageHeading = 'Contas da Casa';
+$pageTitle = 'Contas | FLUXO';
+$pageHeading = 'Contas da casa';
 $activePage = 'contas';
 
 include dirname(__DIR__) . '/views/header.php';

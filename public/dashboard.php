@@ -147,8 +147,8 @@ $stmtContas = $db->prepare("
 $stmtContas->execute([':uid' => $userId, ':mes' => $currentMonth]);
 $contasDestaque = $stmtContas->fetchAll();
 
-$pageTitle = 'Início — FLUXO Gestão Doméstica';
-$pageHeading = 'Visão Geral Doméstica';
+$pageTitle = 'Início | FLUXO';
+$pageHeading = 'Visão geral de contas';
 $activePage = 'dashboard';
 
 include dirname(__DIR__) . '/views/header.php';

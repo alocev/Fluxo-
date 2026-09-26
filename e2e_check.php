@@ -169,9 +169,9 @@ assertCheck("24. Seletor de temas implementado na Topbar e na Sidebar",
     strpos($headerContent, 'theme-switcher-pill') !== false && 
     strpos($sidebarContent, 'sidebar-theme-box') !== false
 );
-assertCheck("25. Alternância dinâmica das duas logos via CSS (.logo-claro e .logo-verde)", 
-    strpos($cssContent, '.logo-claro') !== false && 
-    strpos($cssContent, '.logo-verde') !== false
+assertCheck("25. Logo oficial de fundo verde aplicada como padrão visual principal na interface", 
+    strpos($sidebarContent, 'logo-green.jpg') !== false && 
+    strpos($cssContent, 'brand-logo-img') !== false
 );
 assertCheck("26. Gerenciador de temas no JavaScript com persistência em localStorage", 
     strpos($jsContent, 'setFluxoTheme') !== false && 
@@ -182,9 +182,50 @@ assertCheck("27. Correção na tela de consumo: SELECT inclui 'id', eliminando w
     strpos($envContent, "ini_set('display_errors', '0')") !== false
 );
 
+// --- 8. VALIDAÇÃO DE ACABAMENTO, TÍTULOS E SAUDAÇÃO DINÂMICA ---
+echo "\n--- 8. TÍTULOS DE ABAS, NOMES E SAUDAÇÃO DINÂMICA ---\n";
+$dashContent = file_get_contents(__DIR__ . '/public/dashboard.php');
+$contasContent = file_get_contents(__DIR__ . '/public/contas.php');
+$orcContent = file_get_contents(__DIR__ . '/public/orcamento.php');
+$relContent = file_get_contents(__DIR__ . '/public/relatorios.php');
+$loginContent = file_get_contents(__DIR__ . '/public/login.php');
+$cadContent = file_get_contents(__DIR__ . '/public/cadastro.php');
+
+assertCheck("28. Títulos de abas padronizados (Início, Contas, Orçamento, Consumo, Relatórios, Entrar, Criar conta)",
+    strpos($dashContent, "'Início | FLUXO'") !== false &&
+    strpos($contasContent, "'Contas | FLUXO'") !== false &&
+    strpos($orcContent, "'Orçamento | FLUXO'") !== false &&
+    strpos($consumoContent, "'Consumo | FLUXO'") !== false &&
+    strpos($relContent, "'Relatórios | FLUXO'") !== false &&
+    strpos($loginContent, "<title>Entrar | FLUXO</title>") !== false &&
+    strpos($cadContent, "<title>Criar conta | FLUXO</title>") !== false
+);
+
+assertCheck("29. Nomes do sistema: Subtítulo 'Gestão de contas' e Título do Dashboard 'Visão geral de contas'",
+    strpos($sidebarContent, "Gestão de contas") !== false &&
+    strpos($dashContent, "'Visão geral de contas'") !== false &&
+    strpos($sidebarContent, "Água e energia") !== false
+);
+
+$saudacaoTest = get_greeting('Alice Silva');
+assertCheck("30. Saudação dinâmica funcional: '{$saudacaoTest}'", 
+    preg_match('/^(Bom dia|Boa tarde|Boa noite), Alice!$/', $saudacaoTest) === 1
+);
+
+assertCheck("31. Correção dos cards do topo no Modo Escuro no style.css",
+    strpos($cssContent, '[data-theme="escuro"] .budget-hero-card') !== false &&
+    strpos($cssContent, '[data-theme="escuro"] .smart-alert') !== false
+);
+
+assertCheck("32. Seletor de temas posicionado dentro do card no Login e Cadastro",
+    strpos($loginContent, 'auth-theme-bar') !== false &&
+    strpos($cadContent, 'auth-theme-bar') !== false &&
+    strpos($cssContent, '.auth-theme-bar') !== false
+);
+
 // Limpeza dos usuários temporários de teste (Carlos e Mariana)
 $db->prepare("DELETE FROM usuarios WHERE id IN (:u1, :u2)")->execute([':u1' => $uidCarlos, ':u2' => $uidMariana]);
-assertCheck("28. Limpeza dos usuários temporários de teste concluída com sucesso", true);
+assertCheck("33. Limpeza dos usuários temporários de teste concluída com sucesso", true);
 
 echo "\n=================================================================\n";
 echo " TOTAL: {$passedTests} de {$totalTests} TESTES APROVADOS! (100% SUCESSO)\n";
