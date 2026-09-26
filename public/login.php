@@ -1,7 +1,7 @@
 <?php
 /**
  * FLUXO — Sistema de Gestão Doméstica
- * Página de Login e Autenticação Real
+ * Página de Login e Autenticação Real por Nome de Usuário
  */
 
 require_once dirname(__DIR__) . '/config/database.php';
@@ -12,22 +12,22 @@ require_once dirname(__DIR__) . '/includes/functions.php';
 // Redireciona se já estiver autenticado
 require_guest();
 
-$email = '';
+$usuario = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_csrf();
 
-    $email = trim($_POST['email'] ?? '');
+    $usuario = trim($_POST['usuario'] ?? '');
     $senha = $_POST['senha'] ?? '';
 
-    if (empty($email) || empty($senha)) {
+    if (empty($usuario) || empty($senha)) {
         $error = 'Por favor, preencha todos os campos.';
     } else {
         try {
             $db = getDBConnection();
-            $stmt = $db->prepare("SELECT id, nome, email, senha_hash FROM usuarios WHERE email = :email LIMIT 1");
-            $stmt->execute([':email' => $email]);
+            $stmt = $db->prepare("SELECT id, nome, usuario, senha_hash FROM usuarios WHERE usuario = :u LIMIT 1");
+            $stmt->execute([':u' => $usuario]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($senha, $user['senha_hash'])) {
@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: {$redirect}");
                 exit;
             } else {
-                // Mensagem genérica segura (não revela se o e-mail ou a senha está errada)
-                $error = 'E-mail ou senha inválidos. Por favor, confira seus dados e tente novamente.';
+                // Mensagem genérica segura (não revela se o usuário ou a senha está errada)
+                $error = 'Usuário ou senha inválidos. Por favor, confira seus dados e tente novamente.';
             }
         } catch (PDOException $e) {
             error_log("Erro de login: " . $e->getMessage());
@@ -88,16 +88,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?= csrf_field() ?>
 
             <div class="form-group">
-                <label for="email">Seu E-mail</label>
-                <input type="email" id="email" name="email" class="form-control" 
-                       placeholder="seuemail@exemplo.com" 
-                       value="<?= e($email) ?>" required autofocus>
+                <label for="usuario">Usuário</label>
+                <input type="text" id="usuario" name="usuario" class="form-control" 
+                       placeholder="Seu nome de usuário (ex: alice)" 
+                       value="<?= e($usuario) ?>" required autofocus autocomplete="username">
             </div>
 
             <div class="form-group">
-                <label for="senha">Sua Senha</label>
-                <input type="password" id="senha" name="senha" class="form-control" 
-                       placeholder="••••••••" required>
+                <label for="senha">Senha</label>
+                <div class="password-toggle-wrapper">
+                    <input type="password" id="senha" name="senha" class="form-control" 
+                           placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="btn-toggle-password" data-target="senha" title="Mostrar senha" aria-label="Mostrar senha">
+                        👁️
+                    </button>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; margin-top: 8px;">
@@ -106,16 +111,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <!-- Dica amigável para avaliação acadêmica / demonstração -->
-        <div style="margin-top: 20px; padding: 12px; border-radius: 10px; background-color: var(--primary-surface); font-size: 0.8rem; color: var(--text-secondary); text-align: left; line-height: 1.4;">
-            <strong style="color: var(--primary);">💡 Dica para Testes:</strong><br>
-            Você pode acessar com o usuário demonstrativo:<br>
-            <strong>E-mail:</strong> alice@fluxo.local | <strong>Senha:</strong> fluxo123<br>
-            ou criar um novo usuário no link abaixo.
+        <div style="margin-top: 20px; padding: 14px; border-radius: 12px; background-color: var(--primary-surface); border: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-secondary); text-align: left; line-height: 1.5;">
+            <strong style="color: var(--primary-dark); font-size: 0.9rem;">💡 Dica para testes:</strong><br>
+            <strong>Usuário:</strong> alice<br>
+            <strong>Senha:</strong> fluxo123
         </div>
 
         <div class="auth-footer">
             Ainda não tem uma conta? <a href="cadastro.php" style="font-weight: 700;">Cadastre-se grátis</a>
         </div>
     </div>
+
+    <script src="../assets/js/main.js"></script>
 </body>
 </html>

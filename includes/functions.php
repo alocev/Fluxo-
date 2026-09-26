@@ -117,48 +117,48 @@ if (!function_exists('get_category_meta')) {
                 return [
                     'icon' => '💧',
                     'class' => 'cat-agua',
-                    'color' => '#0284c7',
-                    'bg' => '#e0f2fe',
+                    'color' => '#5BA7D1',
+                    'bg' => '#E5F3FA',
                     'label' => 'Água'
                 ];
             case 'Energia':
                 return [
                     'icon' => '⚡',
                     'class' => 'cat-energia',
-                    'color' => '#d97706',
-                    'bg' => '#fef3c7',
+                    'color' => '#D9A928',
+                    'bg' => '#FFF5D9',
                     'label' => 'Energia'
                 ];
             case 'Internet':
                 return [
-                    'icon' => '🌐',
+                    'icon' => '📱',
                     'class' => 'cat-internet',
-                    'color' => '#6366f1',
-                    'bg' => '#eef2ff',
+                    'color' => '#7C83D1',
+                    'bg' => '#EEEEFC',
                     'label' => 'Internet'
                 ];
             case 'Aluguel':
                 return [
                     'icon' => '🏠',
                     'class' => 'cat-aluguel',
-                    'color' => '#c2410c',
-                    'bg' => '#ffedd5',
+                    'color' => '#C98568',
+                    'bg' => '#FAEDE8',
                     'label' => 'Aluguel'
                 ];
             case 'Streaming':
                 return [
-                    'icon' => '🎬',
+                    'icon' => '📺',
                     'class' => 'cat-streaming',
-                    'color' => '#db2777',
-                    'bg' => '#fce7f3',
+                    'color' => '#A66BB5',
+                    'bg' => '#F5EAF7',
                     'label' => 'Streaming'
                 ];
             default:
                 return [
-                    'icon' => '📦',
+                    'icon' => '💰',
                     'class' => 'cat-outras',
-                    'color' => '#475569',
-                    'bg' => '#f1f5f9',
+                    'color' => '#82928A',
+                    'bg' => '#EEF2F0',
                     'label' => 'Outras despesas'
                 ];
         }

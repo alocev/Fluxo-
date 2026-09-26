@@ -6,29 +6,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Cores Principais — Verde Suave & Natureza */
-    --primary: #2d7a58;
-    --primary-hover: #236347;
-    --primary-light: #eaf5ee;
-    --primary-surface: #f2f8f4;
-    --primary-border: #cde4d6;
+    /* Cores Principais — Verde Sálvia Suave & Natureza (Seções 5, 6, 7, 8) */
+    --primary: #3A8F6B;
+    --primary-hover: #236B4F;
+    --primary-dark: #236B4F;
+    --primary-light: #BFE3CE;
+    --primary-surface: #E8F5ED;
+    --primary-border: #DCEBE2;
     
     /* Superfícies e Fundo */
-    --bg-page: #f8faf8;
-    --bg-card: #ffffff;
-    --border-color: #e5ebe7;
-    --border-subtle: #edf2ee;
+    --bg-page: #EEF7F1;
+    --bg-card: #FFFFFF;
+    --border-color: #DCEBE2;
+    --border-subtle: #E6F0EA;
     
     /* Textos */
-    --text-primary: #192720;
-    --text-secondary: #586b61;
-    --text-muted: #83968c;
-    --text-inverse: #ffffff;
+    --text-primary: #18352A;
+    --text-secondary: #65756D;
+    --text-muted: #8A9A92;
+    --text-inverse: #FFFFFF;
 
     /* Cores de Alerta & Estado */
-    --success: #15803d;
-    --success-bg: #f0fdf4;
-    --success-border: #bbf7d0;
+    --success: #236B4F;
+    --success-bg: #E8F5ED;
+    --success-border: #BFE3CE;
 
     --warning: #b45309;
     --warning-bg: #fffbeb;
@@ -42,30 +43,30 @@
     --info-bg: #f0f9ff;
     --info-border: #bae6fd;
 
-    /* Categorias das Contas (Cores contextuais suaves) */
-    --cat-agua-color: #0284c7;
-    --cat-agua-bg: #e0f2fe;
-    --cat-agua-border: #bae6fd;
+    /* Categorias das Contas (Cores contextuais da Seção 8) */
+    --cat-agua-color: #5BA7D1;
+    --cat-agua-bg: #E5F3FA;
+    --cat-agua-border: #C9E5F5;
 
-    --cat-energia-color: #d97706;
-    --cat-energia-bg: #fef3c7;
-    --cat-energia-border: #fde68a;
+    --cat-energia-color: #D9A928;
+    --cat-energia-bg: #FFF5D9;
+    --cat-energia-border: #FCE8B0;
 
-    --cat-internet-color: #6366f1;
-    --cat-internet-bg: #eef2ff;
-    --cat-internet-border: #c7d2fe;
+    --cat-internet-color: #7C83D1;
+    --cat-internet-bg: #EEEEFC;
+    --cat-internet-border: #D5D7F8;
 
-    --cat-aluguel-color: #c2410c;
-    --cat-aluguel-bg: #ffedd5;
-    --cat-aluguel-border: #fed7aa;
+    --cat-aluguel-color: #C98568;
+    --cat-aluguel-bg: #FAEDE8;
+    --cat-aluguel-border: #F4D6CB;
 
-    --cat-streaming-color: #db2777;
-    --cat-streaming-bg: #fce7f3;
-    --cat-streaming-border: #fbcfe8;
+    --cat-streaming-color: #A66BB5;
+    --cat-streaming-bg: #F5EAF7;
+    --cat-streaming-border: #E9D1ED;
 
-    --cat-outras-color: #475569;
-    --cat-outras-bg: #f1f5f9;
-    --cat-outras-border: #e2e8f0;
+    --cat-outras-color: #82928A;
+    --cat-outras-bg: #EEF2F0;
+    --cat-outras-border: #D9E2DE;
 
     /* Sombras e Raios */
     --radius-sm: 8px;
@@ -260,7 +261,8 @@ button, input, select, textarea {
     text-overflow: ellipsis;
 }
 
-.user-info .user-email {
+.user-info .user-email,
+.user-info .user-handle {
     font-size: 0.74rem;
     color: var(--text-muted);
     white-space: nowrap;
@@ -1005,7 +1007,39 @@ button, input, select, textarea {
 
 .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(45, 122, 88, 0.15);
+    box-shadow: 0 0 0 3px rgba(58, 143, 107, 0.15);
+}
+
+.password-toggle-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-toggle-wrapper .form-control {
+    padding-right: 44px;
+}
+
+.btn-toggle-password {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.btn-toggle-password:hover {
+    color: var(--primary);
+    background-color: var(--primary-surface);
 }
 
 .form-hint {
@@ -1059,7 +1093,8 @@ button, input, select, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 10% 20%, #eaf5ee 0%, #f8faf8 60%);
+    background-color: var(--bg-page);
+    background-image: radial-gradient(circle at 10% 20%, #E8F5ED 0%, #EEF7F1 75%);
     padding: 24px;
 }
 
@@ -1084,18 +1119,18 @@ button, input, select, textarea {
     justify-content: center;
     width: 54px;
     height: 54px;
-    background: linear-gradient(135deg, #34d399 0%, #2d7a58 100%);
+    background: linear-gradient(135deg, #BFE3CE 0%, #3A8F6B 100%);
     border-radius: 16px;
     color: #ffffff;
     font-size: 1.6rem;
     margin-bottom: 16px;
-    box-shadow: 0 8px 16px rgba(45, 122, 88, 0.25);
+    box-shadow: 0 8px 16px rgba(58, 143, 107, 0.25);
 }
 
 .auth-title {
     font-size: 1.55rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--primary-dark);
     letter-spacing: -0.02em;
     margin-bottom: 6px;
 }

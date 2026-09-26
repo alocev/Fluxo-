@@ -67,3 +67,41 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 - **Isolamento de Dados Multi-usuário:** Garantido que 100% das operações SQL de leitura, escrita e exclusão filtrem estritamente por `usuario_id = current_user_id()`.
 - **Proteção CSRF Universal:** Tokens de segurança adicionados em todas as operações `POST`.
 - **Proteção de Credenciais:** Arquivo `.env` adicionado ao `.gitignore` e modelo seguro fornecido via `.env.example`.
+
+---
+
+## [1.1.0] — 2026-09-26
+
+### Adicionado
+- **Autenticação por Nome de Usuário (`usuario`):**
+  - Migração completa do identificador de login de e-mail para nome de usuário (`usuario VARCHAR(60) NOT NULL UNIQUE`) na tabela `usuarios`.
+  - Formulário de login (`public/login.php`) e cadastro (`public/cadastro.php`) adaptados com validação de formato (`/^[a-zA-Z0-9_.-]{3,60}$/`) e mensagens de erro específicas.
+  - Exibição do identificador de usuário (`@usuario`) no cabeçalho/menu lateral (`views/sidebar.php`).
+- **Alternador de Visibilidade de Senha (Mostrar/Ocultar Senha):**
+  - Implementação de botão com ícone de olho (`👁️` / `🙈`) nas telas de Login e Cadastro.
+  - Interação via JavaScript puro (`assets/js/main.js`) com acessibilidade (`aria-label`) e estilo integrado (`assets/css/style.css`).
+- **Identidade Visual Acolhedora em Tons Sálvia:**
+  - Aplicação de nova paleta de cores no CSS (`assets/css/style.css`): fundo da página sálvia suave (`#EEF7F1`), verde primário (`#3A8F6B`), verde escuro/hover (`#236B4F`), verde realce (`#BFE3CE`), cards e superfícies (`#FFFFFF`), texto escuro (`#18352A`), texto secundário (`#65756D`) e bordas suaves (`#DCEBE2`).
+  - Atualização dos padrões de cores e ícones das categorias em `includes/functions.php`:
+    - Água: `#5BA7D1` (Ícone: 💧)
+    - Energia: `#D9A928` (Ícone: ⚡)
+    - Internet: `#7C83D1` (Ícone: 🌐)
+    - Aluguel: `#C98568` (Ícone: 🏠)
+    - Streaming: `#A66BB5` (Ícone: 📺)
+    - Outras despesas: `#82928A` (Ícone: 📦)
+- **Bateria de Testes Automatizados E2E (20/20 Verificações):**
+  - Validação de ponta a ponta cobrindo cadastro, unicidade de usuário, login de demonstração (`alice`), estado inicial limpo (sem herança de valores), isolamento estrito de dados entre usuários concorrentes e persistência de dados.
+
+### Alterado
+- **Estrutura da Tabela `usuarios`:** Substituída a coluna `email` por `usuario VARCHAR(60) NOT NULL UNIQUE` nos scripts de criação (`database/schema.sql`) e na base ativa.
+- **Usuário Demonstrativo no Seed:** Atualizado em `database/seed.sql` e no banco de dados para `nome = 'Alice Silva'`, `usuario = 'alice'`, com hash Bcrypt válido correspondente à senha `fluxo123`.
+- **Dica de Acesso na Tela de Login:** Atualizada para exibir o login rápido com `alice` e `fluxo123`.
+- **Controle de Sessão:** Atualizada a rotina `auth.php` para armazenar `usuario` na sessão (`$_SESSION['user_usuario']`) e disponibilizar a função `current_user_usuario()`.
+
+### Corrigido
+- **Eliminação da Herança de Orçamento Inicial de R$ 1.200:** Identificada a causa raiz em `public/cadastro.php` onde um orçamento padrão de R$ 1.200 era inserido compulsoriamente no ato do cadastro. O trecho foi removido, assegurando que todo novo usuário inicie com estado 100% limpo (R$ 0,00 de orçamento e sem contas preexistentes).
+- **Consistência do Hash da Senha de Demonstração:** Corrigido o hash do seed demonstrativo que impedia a autenticação do usuário `alice` com `fluxo123`.
+
+### Segurança
+- **Garantia de Isolamento Multi-usuário Estrito:** Verificado e testado que consultas em `orcamentos`, `contas` e `consumos` utilizam restrição `WHERE usuario_id = :uid`, prevenindo vazamento de dados ou visibilidade cruzada entre contas distintas.
+- **Higienização de Inputs:** Validação estrita de formato de nome de usuário para evitar injeções ou caracteres de controle indesejados.

@@ -5,16 +5,17 @@
 USE `fluxo_db`;
 
 -- Usuário de demonstração: Alice Silva
+-- Usuário: alice
 -- Senha de teste: fluxo123
 -- Hash gerado via password_hash('fluxo123', PASSWORD_DEFAULT)
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha_hash`, `data_criacao`) 
+INSERT INTO `usuarios` (`id`, `nome`, `usuario`, `senha_hash`, `data_criacao`) 
 VALUES (
     1, 
     'Alice Silva', 
-    'alice@fluxo.local', 
-    '$2y$10$v7mN3xI25Y29/xLekVwXkOG7Y1Q0fVZZ4o3bFwBw3Z7yI/HlM5q/e',
+    'alice', 
+    '$2y$10$hhjgu/MKV/JMCT47XJyOKetpgW0lbNVqfXnw6sIW.6YXCZsJvNjIu',
     NOW()
-) ON DUPLICATE KEY UPDATE `nome` = VALUES(`nome`);
+) ON DUPLICATE KEY UPDATE `nome` = VALUES(`nome`), `usuario` = VALUES(`usuario`), `senha_hash` = VALUES(`senha_hash`);
 
 -- Orçamento para 2026-09: R$ 1.200,00
 INSERT INTO `orcamentos` (`usuario_id`, `mes_referencia`, `limite_mensal`)

@@ -53,9 +53,9 @@ if (!function_exists('login_user')) {
         session_regenerate_id(true);
 
         $_SESSION['user'] = [
-            'id'    => (int)$user['id'],
-            'nome'  => $user['nome'],
-            'email' => $user['email']
+            'id'      => (int)$user['id'],
+            'nome'    => $user['nome'],
+            'usuario' => $user['usuario']
         ];
     }
 }

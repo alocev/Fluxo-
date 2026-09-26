@@ -1,6 +1,6 @@
 # Especificação Técnica do Sistema FLUXO (spec.md)
 
-> **Versão:** 1.0.0  
+> **Versão:** 1.1.0  
 > **Status:** Sistema Totalmente Implementado e Funcional  
 > **Ambiente de Referência:** PHP 8.2+ / MySQL 10.4+ (MariaDB) / XAMPP / Apache  
 
@@ -41,11 +41,12 @@ O **FLUXO** reúne em uma interface orgânica e acolhedora:
 ## 4. Funcionalidades Implementadas
 
 ### 4.1 Autenticação e Gestão de Usuários
-- Cadastro de novos usuários com validação de dados no servidor e unicidade de e-mail;
-- Login seguro utilizando verificação de hash criptográfico (`password_verify`);
+- Cadastro de novos usuários com validação de dados no servidor e unicidade de nome de usuário (`usuario`);
+- Login seguro utilizando nome de usuário (`usuario`) e verificação de hash criptográfico (`password_verify`);
+- Alternância de visibilidade da senha (mostrar/ocultar senha com ícone de olho) no login e cadastro;
 - Proteção contra fixação de sessão com `session_regenerate_id(true)`;
 - Logout seguro com destruição de sessão e expiração de cookies;
-- Isolamento estrito de dados entre diferentes usuários (`usuario_id`).
+- Isolamento estrito de dados entre diferentes usuários (`usuario_id`), garantindo que novas contas iniciem com saldo e contas limpas (sem herança de valores).
 
 ### 4.2 Gestão de Contas e Despesas (CRUD)
 - **Criar:** Cadastro informando categoria, nome, valor, data de vencimento, mês de referência, limite de gasto individual opcional e observação;
@@ -92,6 +93,25 @@ O **FLUXO** reúne em uma interface orgânica e acolhedora:
 - **JavaScript:** Vanilla JS moderno para interatividade, gaveta mobile, cálculos em tempo real e modais
 - **Servidor Web:** Apache 2.4 (integrado ao XAMPP)
 
+### 5.1 Identidade Visual e Paleta de Cores
+O sistema utiliza uma paleta acolhedora baseada em verde sálvia, que proporciona conforto visual e organização clara:
+- **Fundo da Página:** `#EEF7F1` (fundo sálvia muito suave)
+- **Verde Primário:** `#3A8F6B` (ações principais, destaques, botões primários)
+- **Verde Escuro:** `#236B4F` (hover de botões primários e detalhes escuros)
+- **Verde Realce:** `#BFE3CE` (destaques leves, seletores e backgrounds suaves)
+- **Cards e Superfícies:** `#FFFFFF` (superfícies limpas com sombra sutil)
+- **Texto Principal:** `#18352A` (contraste de alta legibilidade)
+- **Texto Secundário:** `#65756D` (legendas e metadados)
+- **Bordas e Divisores:** `#DCEBE2` (linhas estruturais suaves)
+
+#### Cores das Categorias de Despesas
+- **Água:** `#5BA7D1` (Ícone: 💧)
+- **Energia:** `#D9A928` (Ícone: ⚡)
+- **Internet:** `#7C83D1` (Ícone: 🌐)
+- **Aluguel:** `#C98568` (Ícone: 🏠)
+- **Streaming:** `#A66BB5` (Ícone: 📺)
+- **Outras despesas:** `#82928A` (Ícone: 📦)
+
 ---
 
 ## 6. Arquitetura do Banco de Dados
@@ -103,7 +123,7 @@ O banco de dados oficial é o `fluxo_db`, com codificação `utf8mb4` e collatio
 |---|---|---|---|
 | `id` | INT AUTO_INCREMENT | NÃO | Chave primária |
 | `nome` | VARCHAR(120) | NÃO | Nome completo do usuário |
-| `email` | VARCHAR(180) | NÃO | E-mail único do usuário (Unique Key) |
+| `usuario` | VARCHAR(60) | NÃO | Nome de usuário único para login (Unique Key) |
 | `senha_hash` | VARCHAR(255) | NÃO | Hash seguro da senha (`password_hash`) |
 | `data_criacao` | TIMESTAMP | NÃO | Data e hora do cadastro |
 
@@ -207,7 +227,8 @@ O banco de dados oficial é o `fluxo_db`, com codificação `utf8mb4` e collatio
    `http://localhost/FLUXO/`
 
 ### Credenciais Demonstrativas de Teste
-- **E-mail:** `alice@fluxo.local`
+- **Nome:** Alice Silva
+- **Usuário:** `alice`
 - **Senha:** `fluxo123`
 *(Ou crie um novo usuário na tela de cadastro).*
 

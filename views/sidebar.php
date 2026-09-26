@@ -6,7 +6,7 @@
 
 $user = current_user();
 $userName = $user['nome'] ?? 'Usuário';
-$userEmail = $user['email'] ?? '';
+$userUsuario = $user['usuario'] ?? '';
 $initial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
 $active = $activePage ?? 'dashboard';
 ?>
@@ -60,7 +60,7 @@ $active = $activePage ?? 'dashboard';
             <div class="user-avatar"><?= e($initial) ?></div>
             <div class="user-info">
                 <div class="user-name" title="<?= e($userName) ?>"><?= e($userName) ?></div>
-                <div class="user-email" title="<?= e($userEmail) ?>"><?= e($userEmail) ?></div>
+                <div class="user-handle" title="@<?= e($userUsuario) ?>">@<?= e($userUsuario) ?></div>
             </div>
         </div>
 

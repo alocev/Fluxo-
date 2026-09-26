@@ -1,7 +1,7 @@
 <?php
 /**
  * FLUXO — Sistema de Gestão Doméstica
- * Página de Cadastro de Novo Usuário
+ * Página de Cadastro de Novo Usuário por Nome de Usuário
  */
 
 require_once dirname(__DIR__) . '/config/database.php';
@@ -13,22 +13,22 @@ require_once dirname(__DIR__) . '/includes/functions.php';
 require_guest();
 
 $nome = '';
-$email = '';
+$usuario = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_csrf();
 
     $nome = trim($_POST['nome'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $usuario = strtolower(trim($_POST['usuario'] ?? ''));
     $senha = $_POST['senha'] ?? '';
     $senhaConfirma = $_POST['senha_confirma'] ?? '';
 
     // Validações no backend
     if (empty($nome) || mb_strlen($nome) < 3) {
         $error = 'Por favor, informe seu nome completo (mínimo de 3 caracteres).';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'Por favor, informe um endereço de e-mail válido.';
+    } elseif (empty($usuario) || !preg_match('/^[a-z0-9_.-]{3,30}$/', $usuario)) {
+        $error = 'O nome de usuário deve conter entre 3 e 30 caracteres (letras, números, pontos ou sublinhados).';
     } elseif (mb_strlen($senha) < 6) {
         $error = 'A senha deve conter no mínimo 6 caracteres.';
     } elseif ($senha !== $senhaConfirma) {
@@ -37,40 +37,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $db = getDBConnection();
 
-            // Verifica se o e-mail já existe
-            $stmtCheck = $db->prepare("SELECT id FROM usuarios WHERE email = :email LIMIT 1");
-            $stmtCheck->execute([':email' => $email]);
+            // Verifica se o nome de usuário já existe
+            $stmtCheck = $db->prepare("SELECT id FROM usuarios WHERE usuario = :u LIMIT 1");
+            $stmtCheck->execute([':u' => $usuario]);
             if ($stmtCheck->fetch()) {
-                $error = 'Este e-mail já está cadastrado no FLUXO. Tente fazer login.';
+                $error = 'Este nome de usuário já está cadastrado no FLUXO. Por favor, escolha outro.';
             } else {
                 // Criação do hash seguro da senha
                 $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
                 $stmtInsert = $db->prepare("
-                    INSERT INTO usuarios (nome, email, senha_hash, data_criacao)
-                    VALUES (:nome, :email, :senha_hash, NOW())
+                    INSERT INTO usuarios (nome, usuario, senha_hash, data_criacao)
+                    VALUES (:nome, :usuario, :senha_hash, NOW())
                 ");
                 $stmtInsert->execute([
                     ':nome' => $nome,
-                    ':email' => $email,
+                    ':usuario' => $usuario,
                     ':senha_hash' => $senhaHash
                 ]);
 
                 $userId = (int)$db->lastInsertId();
 
-                // Cria automaticamente um orçamento inicial sugerido para o mês atual
-                $mesAtual = date('Y-m');
-                $stmtOrcamento = $db->prepare("
-                    INSERT INTO orcamentos (usuario_id, mes_referencia, limite_mensal)
-                    VALUES (:uid, :mes, 1200.00)
-                ");
-                $stmtOrcamento->execute([':uid' => $userId, ':mes' => $mesAtual]);
+                // Novo usuário inicia com dados limpos (sem valores herdados de outros usuários)
 
-                // Faz login automático
+                // Faz login automático seguro
                 login_user([
-                    'id' => $userId,
-                    'nome' => $nome,
-                    'email' => $email
+                    'id'      => $userId,
+                    'nome'    => $nome,
+                    'usuario' => $usuario
                 ]);
 
                 flash_set('success', "Bem-vindo ao FLUXO, {$nome}! Sua conta foi criada com sucesso.");
@@ -113,29 +107,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?= csrf_field() ?>
 
             <div class="form-group">
-                <label for="nome">Seu Nome Completo</label>
+                <label for="nome">Nome Completo</label>
                 <input type="text" id="nome" name="nome" class="form-control" 
                        placeholder="Ex: Alice Silva" 
                        value="<?= e($nome) ?>" required autofocus>
             </div>
 
             <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" class="form-control" 
-                       placeholder="seuemail@exemplo.com" 
-                       value="<?= e($email) ?>" required>
+                <label for="usuario">Nome de Usuário</label>
+                <input type="text" id="usuario" name="usuario" class="form-control" 
+                       placeholder="Ex: alice" 
+                       value="<?= e($usuario) ?>" required autocomplete="username">
+                <span class="form-hint">Apenas letras, números, ponto ou traço (ex: alice, carlos.souza).</span>
             </div>
 
             <div class="form-group">
-                <label for="senha">Senha de Acesso</label>
-                <input type="password" id="senha" name="senha" class="form-control" 
-                       placeholder="Mínimo 6 caracteres" required>
+                <label for="senha">Senha</label>
+                <div class="password-toggle-wrapper">
+                    <input type="password" id="senha" name="senha" class="form-control" 
+                           placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                    <button type="button" class="btn-toggle-password" data-target="senha" title="Mostrar senha" aria-label="Mostrar senha">
+                        👁️
+                    </button>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="senha_confirma">Confirmação da Senha</label>
-                <input type="password" id="senha_confirma" name="senha_confirma" class="form-control" 
-                       placeholder="Repita sua senha" required>
+                <label for="senha_confirma">Confirmar Senha</label>
+                <div class="password-toggle-wrapper">
+                    <input type="password" id="senha_confirma" name="senha_confirma" class="form-control" 
+                           placeholder="Repita sua senha" required autocomplete="new-password">
+                    <button type="button" class="btn-toggle-password" data-target="senha_confirma" title="Mostrar senha" aria-label="Mostrar senha">
+                        👁️
+                    </button>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; margin-top: 8px;">
@@ -147,5 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Já possui uma conta? <a href="login.php" style="font-weight: 700;">Acesse aqui</a>
         </div>
     </div>
+
+    <script src="../assets/js/main.js"></script>
 </body>
 </html>

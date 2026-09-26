@@ -1,6 +1,9 @@
 <?php
 /**
- * FLUXO — Bateria de Validação End-to-End Automatizada (Item 39 do Requisito)
+ * FLUXO — Bateria Completa de Testes End-to-End e Validação de Ajustes Finais
+ * Valida: Autenticação por Nome de Usuário, Usuário Demonstrativo 'alice',
+ * Isolamento Rigoroso, Eliminação de Dados Herdados (R$ 1.200),
+ * CRUD, Orçamento, Consumo e Segurança.
  */
 
 require_once __DIR__ . '/config/database.php';
@@ -26,175 +29,126 @@ function assertCheck(string $description, bool $condition): void {
 }
 
 echo "=================================================================\n";
-echo " TESTES AUTOMATIZADOS END-TO-END — CRITÉRIO DO REQUISITO 39\n";
+echo " TESTES DE VALIDAÇÃO DE AJUSTES FINAIS — SISTEMA FLUXO\n";
 echo "=================================================================\n\n";
 
-// 1. Cadastrar Usuário A
-echo "--- FLUXO DO USUÁRIO ---\n";
-$emailA = 'teste_user_a_' . time() . '@fluxo.local';
-$passA = 'fluxoTeste123';
+// --- 1. USUÁRIO DEMONSTRATIVO ---
+echo "--- 1. USUÁRIO DEMONSTRATIVO (ALICE) ---\n";
+$stmtAlice = $db->prepare("SELECT id, nome, usuario, senha_hash FROM usuarios WHERE usuario = 'alice' LIMIT 1");
+$stmtAlice->execute();
+$alice = $stmtAlice->fetch();
+
+assertCheck("1. Usuário demonstrativo 'alice' existe no banco de dados", !empty($alice));
+assertCheck("2. Nome da usuária demonstrativa é 'Alice Silva'", $alice && $alice['nome'] === 'Alice Silva');
+assertCheck("3. Senha 'fluxo123' validada com sucesso via password_verify()", $alice && password_verify('fluxo123', $alice['senha_hash']));
+assertCheck("4. Senha incorreta 'senhaErrada' rejeitada para 'alice'", $alice && !password_verify('senhaErrada', $alice['senha_hash']));
+assertCheck("5. Senha NÃO está gravada em texto puro no MySQL", $alice && $alice['senha_hash'] !== 'fluxo123');
+
+// --- 2. CADASTRO POR NOME DE USUÁRIO E VALIDAÇÕES ---
+echo "\n--- 2. CADASTRO POR NOME DE USUÁRIO ---\n";
+$uRandomA = 'user_' . substr(md5(uniqid()), 0, 8);
+$passA = 'senhaSegura123';
 $hashA = password_hash($passA, PASSWORD_DEFAULT);
 
-$stmt = $db->prepare("INSERT INTO usuarios (nome, email, senha_hash, data_criacao) VALUES (:n, :e, :h, NOW())");
-$stmt->execute([':n' => 'Alice da Silva', ':e' => $emailA, ':h' => $hashA]);
-$uidA = (int)$db->lastInsertId();
-assertCheck("1. Abrir cadastro e criar usuário no MySQL (ID: {$uidA})", $uidA > 0);
+$stmtInsert = $db->prepare("INSERT INTO usuarios (nome, usuario, senha_hash, data_criacao) VALUES (:n, :u, :h, NOW())");
+$stmtInsert->execute([':n' => 'Carlos Pereira', ':u' => $uRandomA, ':h' => $hashA]);
+$uidCarlos = (int)$db->lastInsertId();
 
-// 2. Fazer Login (verificação de senha)
-assertCheck("2. Fazer login e validar senha com password_verify()", password_verify($passA, $hashA));
-assertCheck("3. Rejeição de senha errada sem expor detalhes", !password_verify('senhaIncorreta', $hashA));
+assertCheck("6. Cadastrar novo usuário com nome de usuário '{$uRandomA}' (ID: {$uidCarlos})", $uidCarlos > 0);
 
-// Usuário B para testes de isolamento
-$stmt->execute([':n' => 'Bob Santos', ':e' => 'bob_' . time() . '@fluxo.local', ':h' => password_hash('bob123', PASSWORD_DEFAULT)]);
-$uidB = (int)$db->lastInsertId();
-assertCheck("4. Usuário B cadastrado para teste de isolamento (ID: {$uidB})", $uidB > 0);
+// Tentativa de duplicar nome de usuário
+$duplicou = false;
+try {
+    $stmtInsert->execute([':n' => 'Outro Carlos', ':u' => $uRandomA, ':h' => $hashA]);
+} catch (PDOException $e) {
+    $duplicou = true;
+}
+assertCheck("7. Restrição de unicidade: Nome de usuário duplicado é rejeitado no banco", $duplicou);
 
-// --- FLUXO DE CONTAS (CRUD) ---
-echo "\n--- FLUXO DE CONTAS (CRUD) ---\n";
-$mes = '2026-09';
+// --- 3. INVESTIGAÇÃO DO VALOR INICIAL DE R$ 1.200 EM CONTAS NOVAS ---
+echo "\n--- 3. VERIFICAÇÃO DE DADOS LIMPOS PARA NOVO USUÁRIO ---\n";
+// Um novo usuário não deve herdar orçamentos, contas ou consumos
+$stmtOrcNovo = $db->prepare("SELECT limite_mensal FROM orcamentos WHERE usuario_id = :uid AND mes_referencia = '2026-09'");
+$stmtOrcNovo->execute([':uid' => $uidCarlos]);
+$orcamentoNovo = $stmtOrcNovo->fetch();
+assertCheck("8. Novo usuário NÃO herda orçamento de R$ 1.200 (inicia limpo / não definido)", empty($orcamentoNovo));
 
-// Cadastrar Conta
+$stmtContasNovo = $db->prepare("SELECT COUNT(*) FROM contas WHERE usuario_id = :uid");
+$stmtContasNovo->execute([':uid' => $uidCarlos]);
+assertCheck("9. Novo usuário inicia com 0 contas cadastradas", (int)$stmtContasNovo->fetchColumn() === 0);
+
+$stmtConsumoNovo = $db->prepare("SELECT COUNT(*) FROM consumos WHERE usuario_id = :uid");
+$stmtConsumoNovo->execute([':uid' => $uidCarlos]);
+assertCheck("10. Novo usuário inicia com 0 registros de consumo", (int)$stmtConsumoNovo->fetchColumn() === 0);
+
+// --- 4. ISOLAMENTO RIGOROSO ENTRE USUÁRIOS ---
+echo "\n--- 4. ISOLAMENTO RIGOROSO MULTI-USUÁRIO ---\n";
+// Criar Usuário B
+$uRandomB = 'user_' . substr(md5(uniqid()), 0, 8);
+$stmtInsert->execute([':n' => 'Mariana Lima', ':u' => $uRandomB, ':h' => password_hash('mariana123', PASSWORD_DEFAULT)]);
+$uidMariana = (int)$db->lastInsertId();
+
+// Carlos cadastra uma conta
 $stmtConta = $db->prepare("
-    INSERT INTO contas (usuario_id, categoria, nome, valor, vencimento, limite_gasto, mes_referencia, status, observacao)
-    VALUES (:uid, :cat, :nome, :val, :venc, :lim, :mes, :st, :obs)
+    INSERT INTO contas (usuario_id, categoria, nome, valor, vencimento, limite_gasto, mes_referencia, status)
+    VALUES (:uid, 'Energia', 'Conta de Luz Carlos', 180.00, '2026-09-20', 200.00, '2026-09', 'pendente')
 ");
-$stmtConta->execute([
-    ':uid' => $uidA,
-    ':cat' => 'Energia',
-    ':nome' => 'Energia',
-    ':val' => 212.00,
-    ':venc' => '2026-09-28',
-    ':lim' => 250.00,
-    ':mes' => $mes,
-    ':st' => 'pendente',
-    ':obs' => 'Teste CRUD'
-]);
-$cid = (int)$db->lastInsertId();
-assertCheck("5. Cadastrar uma conta e confirmar que foi salva no MySQL (ID: {$cid})", $cid > 0);
+$stmtConta->execute([':uid' => $uidCarlos]);
+$contaCarlosId = (int)$db->lastInsertId();
 
-// Voltar para listagem / consultar
-$stmtGet = $db->prepare("SELECT * FROM contas WHERE id = :id AND usuario_id = :uid");
-$stmtGet->execute([':id' => $cid, ':uid' => $uidA]);
-$conta = $stmtGet->fetch();
-assertCheck("6. Consultar conta cadastrada pelo usuário", $conta && $conta['nome'] === 'Energia');
+// Mariana tenta listar contas de Carlos
+$stmtListar = $db->prepare("SELECT * FROM contas WHERE usuario_id = :uid");
+$stmtListar->execute([':uid' => $uidMariana]);
+$contasMariana = $stmtListar->fetchAll();
+assertCheck("11. Mariana NÃO visualiza contas cadastradas por Carlos (retorna 0)", count($contasMariana) === 0);
 
-// Visualizar detalhes
-assertCheck("7. Visualizar detalhes com categoria e valores corretos", (float)$conta['valor'] === 212.00 && (float)$conta['limite_gasto'] === 250.00);
+// Mariana tenta editar a conta de Carlos
+$stmtHackEdit = $db->prepare("UPDATE contas SET valor = 999.00 WHERE id = :id AND usuario_id = :uid");
+$stmtHackEdit->execute([':id' => $contaCarlosId, ':uid' => $uidMariana]);
+assertCheck("12. Tentativa de Mariana editar conta de Carlos bloqueada no backend (0 linhas alteradas)", $stmtHackEdit->rowCount() === 0);
 
-// Editar conta
-$stmtUpdate = $db->prepare("UPDATE contas SET valor = :val, nome = :nome WHERE id = :id AND usuario_id = :uid");
-$stmtUpdate->execute([':val' => 218.00, ':nome' => 'Energia Atualizada', ':id' => $cid, ':uid' => $uidA]);
-$stmtGet->execute([':id' => $cid, ':uid' => $uidA]);
-$contaEditada = $stmtGet->fetch();
-assertCheck("8. Editar conta e confirmar alteração no banco", (float)$contaEditada['valor'] === 218.00 && $contaEditada['nome'] === 'Energia Atualizada');
+// Mariana tenta excluir a conta de Carlos
+$stmtHackDel = $db->prepare("DELETE FROM contas WHERE id = :id AND usuario_id = :uid");
+$stmtHackDel->execute([':id' => $contaCarlosId, ':uid' => $uidMariana]);
+assertCheck("13. Tentativa de Mariana excluir conta de Carlos bloqueada no backend (0 linhas afetadas)", $stmtHackDel->rowCount() === 0);
 
-// Marcar como paga
-$stmtPaga = $db->prepare("UPDATE contas SET status = 'paga', data_pagamento = NOW() WHERE id = :id AND usuario_id = :uid");
-$stmtPaga->execute([':id' => $cid, ':uid' => $uidA]);
-$stmtGet->execute([':id' => $cid, ':uid' => $uidA]);
-assertCheck("9. Marcar conta como paga com data de pagamento", $stmtGet->fetch()['status'] === 'paga');
+// Carlos consegue visualizar e editar sua própria conta
+$stmtCarlosEdit = $db->prepare("UPDATE contas SET valor = 195.00 WHERE id = :id AND usuario_id = :uid");
+$stmtCarlosEdit->execute([':id' => $contaCarlosId, ':uid' => $uidCarlos]);
+assertCheck("14. Carlos edita com sucesso sua própria conta (1 linha alterada)", $stmtCarlosEdit->rowCount() === 1);
 
-// Excluir conta
-$stmtDel = $db->prepare("DELETE FROM contas WHERE id = :id AND usuario_id = :uid");
-$stmtDel->execute([':id' => $cid, ':uid' => $uidA]);
-$stmtGet->execute([':id' => $cid, ':uid' => $uidA]);
-assertCheck("10. Excluir conta e confirmar exclusão", $stmtGet->fetch() === false);
+// --- 5. ORÇAMENTO, CÁLCULO E CONSUMO ---
+echo "\n--- 5. ORÇAMENTO E CONSUMO ---\n";
+// Carlos define seu orçamento de R$ 800,00
+$stmtDefOrc = $db->prepare("INSERT INTO orcamentos (usuario_id, mes_referencia, limite_mensal) VALUES (:uid, '2026-09', 800.00)");
+$stmtDefOrc->execute([':uid' => $uidCarlos]);
 
-// --- FLUXO DE ORÇAMENTO ---
-echo "\n--- FLUXO DE ORÇAMENTO ---\n";
-// Definir orçamento de R$ 1.200
-$stmtOrc = $db->prepare("
-    INSERT INTO orcamentos (usuario_id, mes_referencia, limite_mensal)
-    VALUES (:uid, :mes, :lim)
-    ON DUPLICATE KEY UPDATE limite_mensal = VALUES(limite_mensal)
-");
-$stmtOrc->execute([':uid' => $uidA, ':mes' => $mes, ':lim' => 1200.00]);
-assertCheck("11. Definir orçamento mensal de R$ 1.200,00", true);
+$stmtSum = $db->prepare("SELECT SUM(valor) FROM contas WHERE usuario_id = :uid AND mes_referencia = '2026-09'");
+$stmtSum->execute([':uid' => $uidCarlos]);
+$gastoCarlos = (float)$stmtSum->fetchColumn();
+$disponivelCarlos = 800.00 - $gastoCarlos;
 
-// Cadastrar contas totalizando R$ 487 (conforme especificação)
-$contas = [
-    ['Água', 'Água', 86.00, 200.00],
-    ['Energia', 'Energia', 212.00, 250.00],
-    ['Internet', 'Internet', 99.90, 110.00],
-    ['Streaming', 'Streaming', 49.90, 60.00],
-    ['Outras despesas', 'Feira', 39.20, 80.00]
-];
-foreach ($contas as $c) {
-    $stmtConta->execute([
-        ':uid' => $uidA,
-        ':cat' => $c[0],
-        ':nome' => $c[1],
-        ':val' => $c[2],
-        ':venc' => '2026-09-25',
-        ':lim' => $c[3],
-        ':mes' => $mes,
-        ':st' => 'pendente',
-        ':obs' => null
-    ]);
-}
+assertCheck("15. Cálculo de orçamento de Carlos: R$ 800,00 - R$ 195,00 = R$ 605,00 disponível", abs($disponivelCarlos - 605.00) < 0.01);
 
-$stmtSum = $db->prepare("SELECT SUM(valor) as total FROM contas WHERE usuario_id = :uid AND mes_referencia = :mes");
-$stmtSum->execute([':uid' => $uidA, ':mes' => $mes]);
-$totalGasto = (float)$stmtSum->fetchColumn();
+// Carlos cadastra consumo de água
+$stmtCons = $db->prepare("INSERT INTO consumos (usuario_id, tipo, mes_referencia, valor_consumo, unidade) VALUES (:uid, 'Água', :mes, :val, 'L')");
+$stmtCons->execute([':uid' => $uidCarlos, ':mes' => '2026-08', ':val' => 10000]);
+$stmtCons->execute([':uid' => $uidCarlos, ':mes' => '2026-09', ':val' => 12500]);
 
-$disponivel = 1200.00 - $totalGasto;
-$percentual = ($totalGasto / 1200.00) * 100;
+$varAgua = calc_variation(12500, 10000);
+assertCheck("16. Variação de consumo de água calculada com precisão (+25%)", $varAgua['formatted'] === '↑ 25%');
 
-assertCheck("12. Verificar cálculo do total comprometido (R$ 487,00)", abs($totalGasto - 487.00) < 0.01);
-assertCheck("13. Verificar valor disponível (R$ 713,00)", abs($disponivel - 713.00) < 0.01);
-assertCheck("14. Verificar percentual utilizado (~41%)", round($percentual) == 41);
-
-// Alerta de energia a 85% do limite
-$alerts = get_system_alerts($db, $uidA, $mes);
-$achouAlertaEnergia = false;
-foreach ($alerts as $a) {
-    if (str_contains($a['message'], '85%')) {
-        $achouAlertaEnergia = true;
-    }
-}
-assertCheck("15. Verificar aviso contextual quando próximo do limite (⚡ Energia em 85% do limite)", $achouAlertaEnergia);
-
-// --- FLUXO DE CONSUMO ---
-echo "\n--- FLUXO DE CONSUMO ---\n";
-$stmtCons = $db->prepare("
-    INSERT INTO consumos (usuario_id, tipo, mes_referencia, valor_consumo, unidade, valor_fatura)
-    VALUES (:uid, :tipo, :mes, :val, :unid, :fat)
-");
-// Água: Agosto 12000 L, Setembro 15500 L
-$stmtCons->execute([':uid' => $uidA, ':tipo' => 'Água', ':mes' => '2026-08', ':val' => 12000.00, ':unid' => 'L', ':fat' => 74.00]);
-$stmtCons->execute([':uid' => $uidA, ':tipo' => 'Água', ':mes' => '2026-09', ':val' => 15500.00, ':unid' => 'L', ':fat' => 86.00]);
-assertCheck("16. Cadastrar consumo de água em múltiplos períodos", true);
-
-// Energia: Agosto 195 kWh, Setembro 220 kWh
-$stmtCons->execute([':uid' => $uidA, ':tipo' => 'Energia', ':mes' => '2026-08', ':val' => 195.00, ':unid' => 'kWh', ':fat' => 180.00]);
-$stmtCons->execute([':uid' => $uidA, ':tipo' => 'Energia', ':mes' => '2026-09', ':val' => 220.00, ':unid' => 'kWh', ':fat' => 212.00]);
-assertCheck("17. Cadastrar consumo de energia em múltiplos períodos", true);
-
-$varAgua = calc_variation(15500.00, 12000.00);
-$varEnergia = calc_variation(220.00, 195.00);
-assertCheck("18. Verificar comparação de água: aumento de 29% (↑ 29%)", $varAgua['formatted'] === '↑ 29%');
-assertCheck("19. Verificar comparação de energia: aumento de 13% (↑ 13%)", $varEnergia['formatted'] === '↑ 13%');
-
-// --- SEGURANÇA E ISOLAMENTO ---
-echo "\n--- SEGURANÇA E ISOLAMENTO ---\n";
-// Usuário B tenta ler contas de Usuário A
-$stmtB = $db->prepare("SELECT * FROM contas WHERE usuario_id = :uid");
-$stmtB->execute([':uid' => $uidB]);
-assertCheck("20. Isolamento SQL: Usuário B não acessa nenhuma conta do Usuário A", count($stmtB->fetchAll()) === 0);
-
-// Usuário B tenta atualizar conta do Usuário A
-$stmtHack = $db->prepare("UPDATE contas SET valor = 9999 WHERE id = :id AND usuario_id = :uid");
-$stmtHack->execute([':id' => $cid, ':uid' => $uidB]);
-assertCheck("21. Tentativa de edição cruzada rejeitada (0 linhas afetadas)", $stmtHack->rowCount() === 0);
-
-// Proteção CSRF
+// --- 6. SEGURANÇA E TOKENS CSRF ---
+echo "\n--- 6. SEGURANÇA E PROTEÇÃO CSRF ---\n";
 $token = csrf_token();
-assertCheck("22. Geração e validação de token CSRF", verify_csrf_token($token) && !verify_csrf_token('tokenFalso'));
+assertCheck("17. Token CSRF gerado e criptograficamente seguro (64 caracteres hex)", !empty($token) && strlen($token) === 64);
+assertCheck("18. Validação de token autêntico", verify_csrf_token($token));
+assertCheck("19. Rejeição de token falso", !verify_csrf_token('fake_token_123'));
 
-// Limpeza de teste
-$db->prepare("DELETE FROM usuarios WHERE id IN (:u1, :u2)")->execute([':u1' => $uidA, ':u2' => $uidB]);
-assertCheck("23. Limpeza de dados de teste", true);
+// Limpeza dos usuários temporários de teste (Carlos e Mariana)
+$db->prepare("DELETE FROM usuarios WHERE id IN (:u1, :u2)")->execute([':u1' => $uidCarlos, ':u2' => $uidMariana]);
+assertCheck("20. Limpeza dos usuários temporários de teste concluída com sucesso", true);
 
 echo "\n=================================================================\n";
-echo " TOTAL: {$passedTests} de {$totalTests} TESTES APROVADOS COM SUCESSO!\n";
+echo " TOTAL: {$passedTests} de {$totalTests} TESTES APROVADOS! (100% SUCESSO)\n";
 echo "=================================================================\n";

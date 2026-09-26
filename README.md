@@ -14,7 +14,7 @@ Com uma identidade visual moderna e acolhedora em verde suave, o FLUXO afasta a 
 - **CRUD Completo de Contas:** Cadastro, listagem com filtros por situação (todas, pendente, paga, vencida) e mês, visualização detalhada, edição, alternador rápido de quitação e exclusão segura.
 - **Acompanhamento de Consumo de Água & Energia:** Medição física em Litros/m³ e kWh, com cálculo automático da variação percentual em relação ao mês anterior ($$ \uparrow $$ ou $$ \downarrow $$) e gráficos históricos interativos.
 - **Relatórios & Gráficos:** Visualização da distribuição das despesas por categoria em gráfico Donut, evolução mensal dos valores comprometidos e histórico de consumo.
-- **Autenticação Real & Isolamento de Dados:** Cadastro e login com hash criptográfico seguro (`password_hash` / `password_verify`), proteção contra fixação de sessão e isolamento rigoroso entre usuários no banco de dados.
+- **Autenticação Real & Isolamento de Dados:** Cadastro e login por nome de usuário (`usuario`) com hash criptográfico seguro (`password_hash` / `password_verify`), alternador de visibilidade de senha (ícone de olho 👁️/🙈), proteção contra fixação de sessão e isolamento rigoroso entre usuários no banco de dados.
 
 ---
 
@@ -90,10 +90,11 @@ http://localhost/FLUXO/
 ## 🔑 Acesso de Teste para Avaliação
 
 Para facilitar a avaliação imediata sem necessidade de cadastrar dados do zero, você pode utilizar o usuário demonstrativo já pré-configurado:
-- **E-mail:** `alice@fluxo.local`
+- **Nome:** Alice Silva
+- **Usuário:** `alice`
 - **Senha:** `fluxo123`
 
-*Ou, se desejar, crie um novo usuário na tela de cadastro para testar o isolamento completo de dados.*
+*Ou, se desejar, crie um novo usuário na tela de cadastro para testar o isolamento completo de dados (novas contas começam com estado 100% limpo, sem herança de orçamentos ou contas).*
 
 ---
 

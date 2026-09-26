@@ -92,4 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
         inputLimite.addEventListener('input', updateLimitPreview);
         updateLimitPreview();
     }
+
+    // 6. Olho para Mostrar / Ocultar Senha (Login e Cadastro)
+    document.querySelectorAll('.btn-toggle-password').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (input) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    btn.textContent = '🙈';
+                    btn.setAttribute('title', 'Ocultar senha');
+                    btn.setAttribute('aria-label', 'Ocultar senha');
+                } else {
+                    input.type = 'password';
+                    btn.textContent = '👁️';
+                    btn.setAttribute('title', 'Mostrar senha');
+                    btn.setAttribute('aria-label', 'Mostrar senha');
+                }
+            }
+        });
+    });
 });
