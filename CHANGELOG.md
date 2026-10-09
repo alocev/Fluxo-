@@ -6,6 +6,23 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 ---
 
+## [1.4.0] — 2026-10-09
+
+### Adicionado
+- **Povoamento de Dados Demonstrativos para 6 Meses (`database/seed.php` e `database/seed.sql`):**
+  - Criação de gerador de dados demonstrativos estritamente idempotente para a usuária de testes `alice` (`id: 1`).
+  - Cobertura completa de 6 meses contínuos: `2026-05` (Maio), `2026-06` (Junho), `2026-07` (Julho), `2026-08` (Agosto), `2026-09` (Setembro) e `2026-10` (Outubro, mês atual).
+  - Orçamentos mensais consistentes entre R$ 1.200,00 e R$ 1.350,00 para todos os 6 meses.
+  - 33 contas domésticas distribuídas pelas 6 categorias oficiais (`Aluguel`, `Streaming`, `Água`, `Internet`, `Energia`, `Outras despesas`), com status quitado para os meses passados e status misto (pagas e pendentes) para o mês atual.
+  - 12 registros de consumo de água (`L`) e energia (`kWh`) com variações realistas, permitindo pleno funcionamento dos gráficos históricos, comparativos e relatórios.
+- **Script de Verificação de Seed (`verify_seed.php`):** Ferramenta utilitária para conferência de integridade dos registros da conta `alice`.
+
+### Alterado
+- **Aprimoramento do Tema Verde (`assets/css/style.css`):**
+  - Intensificação moderada da paleta verde com tons sálvia mais ricos e presentes nas superfícies (`--bg-page: #CFE0D4`, `--bg-card: #DFECE3`, `--bg-card-subtle: #D0E2D5`, `--border-color: #9DBFA8`, `--topbar-bg: #D7E7DC`, `--input-bg: #EAF3EC`).
+  - Textos de alto contraste em verde floresta profundo (`--text-primary: #0A2116`, `--text-secondary: #214432`, `--text-muted: #436652`) garantindo contraste acima de 11:1 (WCAG AAA).
+  - Preservação estrita dos temas Claro (`[data-theme="claro"]`) e Escuro (`[data-theme="escuro"]`) sem qualquer alteração.
+
 ## [1.0.0] — 2026-09-25
 
 ### Adicionado
@@ -173,5 +190,21 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 - **Cards Superiores no Modo Escuro (Dashboard):**
   - Correção da sobreposição de fundos claros nos cards superiores da tela inicial no Modo Escuro.
   - O card principal de orçamento (`.budget-hero-card`), os alertas automáticos (`.smart-alert`) e a barra de progresso receberam superfícies escuras coordenadas (`#1B2922`, gradientes escuros florestais e bordas `#273B30`), garantindo alto contraste e leitura cristalina dos números e textos claros (`#E7F3EC`), mantendo intactos os cards inferiores.
+
+---
+
+## [1.4.0] — 2026-10-09
+
+### Adicionado
+- **Reestruturação Integral do `spec.md`:**
+  - Adicionadas seções formais de **Objetivo**, **Usuários e Permissões** (com foco no perfil único de Usuário Cadastrado e detalhamento do isolamento no backend), **Casos de Uso Principais (UC01 a UC09)** com tabela de rastreabilidade, **Requisitos Funcionais (RF01 a RF16)**, **Requisitos Não Funcionais (RNF01 a RNF09)**, **Diagrama Entidade-Relacionamento (DER)** em Mermaid e tabela de campos por entidade, **Critérios de Aceite (CA01 a CA13)** no padrão Dado/Quando/Então, e **Stack Tecnológica e Implantação** (justificativa de stack, passos de execução local e situação de deploy).
+
+### Alterado
+- **Aprimoramento Visual Imersivo do Modo Verde:**
+  - O tema verde foi calibrado para que toda a interface seja nitidamente verde em sua atmosfera, eliminando fundos brancos/quase-brancos e off-whites apagados.
+  - O fundo principal agora adota `#DFECE3` (verde sálvia suave e visível), os cartões e superfícies utilizam `#EBF4EE`, elementos secundários `#D8E8DD`, bordas `#B5D2BF`, cabeçalho `#E8F2EC` e textos em verde floresta de alto contraste (`#0F2A1D` e `#2C533F`).
+  - Cores contextuais de recursos (Água e Energia) foram preservadas com fundos harmonizados.
+  - Os temas Claro e Escuro permaneceram completamente inalterados e funcionais.
+
 
 

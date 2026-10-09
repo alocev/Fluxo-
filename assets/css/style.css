@@ -8,33 +8,33 @@
 :root,
 [data-theme="verde"] {
     /* Cores Principais — Verde Sálvia & Natureza (Identidade Principal do FLUXO) */
-    --primary: #2D7A58;
-    --primary-hover: #226346;
-    --primary-dark: #1B4E37;
-    --primary-light: #BFE3CE;
-    --primary-surface: #E3F2E8;
-    --primary-border: #C8E3D2;
+    --primary: #216948;
+    --primary-hover: #175237;
+    --primary-dark: #0F3D27;
+    --primary-light: #94CBAA;
+    --primary-surface: #C2DFCC;
+    --primary-border: #8BB99B;
     
-    /* Superfícies, Fundo e Camadas com Atmosfera Verde Suave e Acolhedora */
-    --bg-page: #EEF6F1;
-    --bg-card: #F7FCF9;
-    --bg-card-subtle: #EBF5EF;
-    --border-color: #D2E7DB;
-    --border-subtle: #E0EFE6;
+    /* Superfícies, Fundo e Camadas com Atmosfera Visivelmente Verde, Suave e Acolhedora */
+    --bg-page: #CFE0D4;
+    --bg-card: #DFECE3;
+    --bg-card-subtle: #D0E2D5;
+    --border-color: #9DBFA8;
+    --border-subtle: #B3D1BD;
     
-    /* Textos (Alto contraste e legibilidade com tom verde profundo) */
-    --text-primary: #143224;
-    --text-secondary: #526C5F;
-    --text-muted: #799587;
+    /* Textos (Alto contraste e legibilidade com tom verde floresta profundo) */
+    --text-primary: #0A2116;
+    --text-secondary: #214432;
+    --text-muted: #436652;
     --text-inverse: #FFFFFF;
 
     /* Sidebar no Modo Verde (Verde profundo para camadas e contraste elegante) */
-    --sidebar-bg: #1B4533;
-    --sidebar-border: #143828;
+    --sidebar-bg: #143A2A;
+    --sidebar-border: #0F2D20;
     --sidebar-text: #D5E8DD;
     --sidebar-text-muted: #95BBA8;
     --sidebar-hover-bg: rgba(255, 255, 255, 0.10);
-    --sidebar-active-bg: #2D7A58;
+    --sidebar-active-bg: #246B4B;
     --sidebar-active-text: #FFFFFF;
     --sidebar-brand-title: #FFFFFF;
     --sidebar-brand-sub: #A3CFB8;
@@ -42,55 +42,55 @@
     --sidebar-user-border: rgba(255, 255, 255, 0.14);
 
     /* Topbar & Inputs */
-    --topbar-bg: #F7FCF9;
-    --topbar-border: #D2E7DB;
-    --input-bg: #FFFFFF;
+    --topbar-bg: #D7E7DC;
+    --topbar-border: #A3C5AE;
+    --input-bg: #EAF3EC;
 
-    /* Hero & Auth com gradiente verde suave */
-    --hero-bg: linear-gradient(135deg, #F7FCF9 0%, #E3F2E8 100%);
-    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #DDEFE4 0%, #EEF6F1 75%);
+    /* Hero & Auth com gradiente verde suave visível */
+    --hero-bg: linear-gradient(135deg, #DFECE3 0%, #C3DEC9 100%);
+    --auth-bg-gradient: radial-gradient(circle at 10% 20%, #BBDBC4 0%, #CFE0D4 75%);
 
     /* Cores de Alerta & Estado */
-    --success: #236B4F;
-    --success-bg: #E8F5ED;
-    --success-border: #BFE3CE;
+    --success: #1E6645;
+    --success-bg: #CCE6D5;
+    --success-border: #A3CFB2;
 
-    --warning: #b45309;
-    --warning-bg: #fffbeb;
-    --warning-border: #fde68a;
+    --warning: #944605;
+    --warning-bg: #F8ECD2;
+    --warning-border: #E8C888;
 
-    --danger: #b91c1c;
-    --danger-bg: #fef2f2;
-    --danger-border: #fecaca;
+    --danger: #A31818;
+    --danger-bg: #FCE0DC;
+    --danger-border: #F1A8A0;
 
-    --info: #0369a1;
-    --info-bg: #f0f9ff;
-    --info-border: #bae6fd;
+    --info: #025B8C;
+    --info-bg: #DCECF8;
+    --info-border: #A4CCE8;
 
-    /* Categorias das Contas (Cores contextuais) */
-    --cat-agua-color: #5BA7D1;
-    --cat-agua-bg: #E5F3FA;
-    --cat-agua-border: #C9E5F5;
+    /* Categorias das Contas (Cores contextuais mantidas) */
+    --cat-agua-color: #3884AF;
+    --cat-agua-bg: #D5EAF5;
+    --cat-agua-border: #AED2E5;
 
-    --cat-energia-color: #D9A928;
-    --cat-energia-bg: #FFF5D9;
-    --cat-energia-border: #FCE8B0;
+    --cat-energia-color: #B58514;
+    --cat-energia-bg: #FAEFCE;
+    --cat-energia-border: #E8D397;
 
-    --cat-internet-color: #7C83D1;
-    --cat-internet-bg: #EEEEFC;
-    --cat-internet-border: #D5D7F8;
+    --cat-internet-color: #5C64B8;
+    --cat-internet-bg: #E4E5F7;
+    --cat-internet-border: #C4C7EE;
 
-    --cat-aluguel-color: #C98568;
-    --cat-aluguel-bg: #FAEDE8;
-    --cat-aluguel-border: #F4D6CB;
+    --cat-aluguel-color: #B26A4C;
+    --cat-aluguel-bg: #F5E3DC;
+    --cat-aluguel-border: #E2BCAD;
 
-    --cat-streaming-color: #A66BB5;
-    --cat-streaming-bg: #F5EAF7;
-    --cat-streaming-border: #E9D1ED;
+    --cat-streaming-color: #8E4C9E;
+    --cat-streaming-bg: #F0DEEE;
+    --cat-streaming-border: #DBB8D8;
 
-    --cat-outras-color: #82928A;
-    --cat-outras-bg: #EEF2F0;
-    --cat-outras-border: #D9E2DE;
+    --cat-outras-color: #597365;
+    --cat-outras-bg: #DCE8E0;
+    --cat-outras-border: #B7CEBF;
 
     /* Sombras e Raios */
     --radius-sm: 8px;
@@ -99,9 +99,9 @@
     --radius-xl: 26px;
     --radius-pill: 9999px;
 
-    --shadow-sm: 0 1px 3px rgba(25, 39, 32, 0.04), 0 1px 2px rgba(25, 39, 32, 0.02);
-    --shadow-md: 0 4px 18px -2px rgba(25, 39, 32, 0.05), 0 2px 6px -1px rgba(25, 39, 32, 0.02);
-    --shadow-lg: 0 12px 32px -4px rgba(25, 39, 32, 0.08), 0 4px 12px -2px rgba(25, 39, 32, 0.03);
+    --shadow-sm: 0 1px 3px rgba(15, 42, 29, 0.06), 0 1px 2px rgba(15, 42, 29, 0.04);
+    --shadow-md: 0 4px 18px -2px rgba(15, 42, 29, 0.08), 0 2px 6px -1px rgba(15, 42, 29, 0.04);
+    --shadow-lg: 0 12px 32px -4px rgba(15, 42, 29, 0.12), 0 4px 12px -2px rgba(15, 42, 29, 0.05);
 
     --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
